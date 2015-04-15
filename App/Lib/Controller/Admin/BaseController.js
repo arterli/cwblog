@@ -13,7 +13,6 @@ module.exports = Controller(function(){
       if(this.http.action === 'login'){
         return;
       }
-
       var self = this;
       return self.session('userInfo').then(function(userInfo){
         if(isEmpty(userInfo)){
@@ -22,12 +21,12 @@ module.exports = Controller(function(){
             return self.error(403);
           } else {
             //跳转到登录页
-            return self.redirect('login');
+            return self.redirect('/admin/index/login');
           }
         }else{
           //用户已经登陆获取用户信息
           self.userInfo = userInfo;
-          self.assign('username',userInfo.username);
+          self.assign('user',userInfo);
         }
       });
     }
