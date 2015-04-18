@@ -4,12 +4,12 @@
 module.exports = Controller("Admin/BaseController" , function(){
     return {
         indexAction:function(){
-
+            this.conf=F("ueditorconfig");
             var action = this.get("action");
             var result;
             switch (action) {
                 case 'config':
-                    result = F("ueditorconfig");
+                    result = this.conf;
 
                     break;
 
@@ -21,6 +21,7 @@ module.exports = Controller("Admin/BaseController" , function(){
                 case 'uploadvideo':
                 /* 上传文件 */
                 case 'uploadfile':
+
                   result = this.uploadfileAction();
                     break;
 
@@ -48,20 +49,88 @@ module.exports = Controller("Admin/BaseController" , function(){
             this.jsonp(result);
 
         },
-        uploadfileAction:function(){
-            return {a:"dsfsafa"}
+        ceshiAction:function(){
+            //var re=this.getFullName();
+            var re = this.getFileExt();
+          this.json(re);
         },
+        uploadfileAction:function(){
+
+
+                var filed =  this.file("upfile");
+                var oriName= filed.originalFilename;
+                var action = this.get("action");
+                var base64 = "upload";
+                var config={};
+                var fieldName;
+                switch (action) {
+                    case 'uploadimage':
+                        config = {
+                            pathFormat : this.conf['imagePathFormat'],
+                            maxSize : this.conf['imageMaxSize'],
+                            allowFiles : this.conf['imageAllowFiles']
+                        };
+                        fieldName = this.conf['imageFieldName'];
+                        break;
+                    case 'uploadscrawl':
+                       config = {
+                            "pathFormat" : this.conf['scrawlPathFormat'],
+                            "maxSize" : this.conf['scrawlMaxSize'],
+                            "allowFiles" : this.conf['scrawlAllowFiles'],
+                            "oriName" : "scrawl.png"
+                         };
+                        fieldName = this.conf['scrawlFieldName'];
+                        base64 = "base64";
+                        break;
+                    case 'uploadvideo':
+                        config = {
+                            "pathFormat" : this.conf['videoPathFormat'],
+                            "maxSize" : this.conf['videoMaxSize'],
+                            "allowFiles" : this.conf['videoAllowFiles']
+                        };
+                        fieldName = this.conf['videoFieldName'];
+                        break;
+                    case 'uploadfile':
+                    default:
+                        config = {
+                            "pathFormat" : this.conf['filePathFormat'],
+                            "maxSize" : this.conf['fileMaxSize'],
+                            "allowFiles" : this.conf['fileAllowFiles']
+                    };
+                        fieldName =  this.conf['fileFieldName'];
+                        break;
+                };
+                 var up = new this.Uploader(fieldName, config,oriName, base64);
+
+
+                return up.ssb;
+
+
+        },
+        //UEditor编辑器通用上传
+        Uploader:function(fileField, config,oriName, type){
+            var self = this;
+            var fileField=fileField;
+            var config=config;
+            var oriName=oriName;
+            if(type){
+                var type=type;
+            }else{var type="upload";}
+            var getFullName=getFullName(config,oriName);
+            self.ssb=self.getFileExt(oriName);
+            //return getFullName;
+        },
+
+        //获取文件扩展名
+        getFileExt: function(oriName){
+        var filename=oriName;
+        return filename.substr(filename.search(/[/.]/)).toLocaleLowerCase();
+    },
         addAction: function() {
             var self = this;
-            var where = {
-                name: ''
-            };
-
             if (self.isPost()) {
-                var brandModel = D('Brand');
-                var pData = self.post();
                 //获取上传的图片文件
-                var vBImg = self.file('img');
+                var vBImg = self.file();
                 //利用上传图片的name和path属性
                 var finalFileName = this.utilUploadImg(pData.name, vBImg.path);
 
@@ -82,7 +151,7 @@ module.exports = Controller("Admin/BaseController" , function(){
                 return self.display();
             }
         },
-//图片上传
+        //图片上传
         utilUploadImg: function(upImgName, upImgPath) {
             var extension = '';
             var finalFileName = '';
@@ -97,7 +166,7 @@ module.exports = Controller("Admin/BaseController" , function(){
                     console.log('There was an error when reading file');
                 } else {
                     //写入文件到uplaod
-                    fs.writeFile('upload/' + finalFileName, data, function(err) {
+                    fs.writeFile('static/' + finalFileName, data, function(err) {
                         if (err) {
                             console.log('There was an error when write file');
                         } else {
@@ -108,7 +177,10 @@ module.exports = Controller("Admin/BaseController" , function(){
             });
 
             return finalFileName;
-        }
+        },
+
+
+
     }
 
 
