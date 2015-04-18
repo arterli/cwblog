@@ -10,7 +10,7 @@ module.exports = Controller("Admin/BaseController", function(){
       this.display();
     },
     loginAction: function(){
-      //用户后台登陆
+      //鐢ㄦ埛鍚庡彴鐧婚檰
       if(this.isPost()){
          var username = this.post('username');
          var password = this.post('password');
@@ -20,7 +20,7 @@ module.exports = Controller("Admin/BaseController", function(){
            password:md5(password)
          }).find().then(function(data){
             if(isEmpty(data)){
-             return self.error(403, '用户名或者密码不正确');
+             return self.error(403, '鐢ㄦ埛鍚嶆垨鑰呭瘑鐮佷笉姝ｇ‘');
             }else{
               return self.session('userInfo',data);
             }

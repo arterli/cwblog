@@ -8,6 +8,21 @@ module.exports = Controller("Home/BaseController", function(){
     indexAction: function(){
       //render View/Home/article_addarticle.html file
       this.display();
+    },
+    formAction:function(){
+
+        this.display()
+    },
+
+    jieshouAction:function(){
+     var p=this.post();
+      console.log(p);
+      var fh={};
+      fh.emal= p.emal;
+      fh.pass= p.password;
+      fh.ck= p.ck;
+      this.end(fh);
     }
+
   };
 });
