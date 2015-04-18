@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-04-18 12:47:32
+Date: 2015-04-18 12:56:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -50,6 +50,17 @@ CREATE TABLE `cw_article` (
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Records of cw_article
+-- ----------------------------
+INSERT INTO `cw_article` VALUES ('1', '欢迎使用emlog', '1428845299', '恭喜您成功安装了emlog，这是系统自动生成的演示文章。编辑或者删除它，然后开始您的创作吧！', '', '', '1', '-1', 'blog', '2', '0', '0', 'n', 'n', 'n', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('2', 'sdfasf', '1429120526', 'fdsafdsaffdsafdsafasfdsa', '', '', '1', '-1', 'blog', '0', '0', '0', 'n', 'n', 'n', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('3', '', '1429120632', '', '', '', '1', '-1', 'blog', '0', '0', '0', 'n', 'n', 'y', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('4', '1111111111111111111', '1429206936', 'fafdsafdsafdsafasfdsafas', '', '', '1', '-1', 'blog', '0', '0', '0', 'n', 'n', 'n', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('5', '22222222222222', '1429207063', '<p>\r\n	wfsfsdfsdfs\r\n</p>\r\n<p>\r\n	<a target=\"_blank\" href=\"http://localhost/emlog/content/uploadfile/201504/5dd21429207177.jpg\" id=\"ematt:1\"><img src=\"http://localhost/emlog/content/uploadfile/201504/thum-5dd21429207177.jpg\" title=\"点击查看原图\" alt=\"b21c8701a18b87d603377112050828381f30fd42.jpg\" height=\"263\" border=\"0\" width=\"420\" /></a>\r\n</p>', '', '', '1', '-1', 'blog', '2', '0', '1', 'n', 'n', 'n', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('6', '范德萨发发生发f   大', '0', '<p>的萨芬打算发阿发阿发<img src=\"http://img.baidu.com/hi/jx2/j_0028.gif\"/></p>', '', '', '1', '-1', 'blog', '0', '0', '0', 'n', 'n', 'n', 'y', 'y', '', '');
+INSERT INTO `cw_article` VALUES ('7', 'ewewe', '0', '<p>wwww<br/></p>', '', '', '1', '-1', 'blog', '0', '0', '0', 'n', 'n', 'n', 'y', 'y', '', '');
+
+-- ----------------------------
 -- Table structure for cw_session
 -- ----------------------------
 DROP TABLE IF EXISTS `cw_session`;
@@ -62,6 +73,13 @@ CREATE TABLE `cw_session` (
   UNIQUE KEY `cookie` (`key`),
   KEY `expire` (`expire`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cw_session
+-- ----------------------------
+INSERT INTO `cw_session` VALUES ('1', 'xCc34-YcCEgDNWfCQgIpPSYBcRmQ4_eV', '{}', '1428944946981');
+INSERT INTO `cw_session` VALUES ('2', 'ZJejXCmfQZxb3sgZhbep-6q1W3aWvk0t', '{\"userInfo\":{\"uid\":1,\"username\":\"admin\",\"password\":\"21232f297a57a5a743894a0e4a801fc3\",\"nickname\":\"\",\"role\":\"admin\",\"ischeck\":\"n\",\"photo\":\"\",\"email\":\"\",\"description\":\"\"}}', '1429216307647');
+INSERT INTO `cw_session` VALUES ('3', 'O7smhTmcrlBAAfmU2tCNuM8EvNqjHuoR', '{\"userInfo\":{\"uid\":1,\"username\":\"admin\",\"password\":\"21232f297a57a5a743894a0e4a801fc3\",\"nickname\":\"\",\"role\":\"admin\",\"ischeck\":\"n\",\"photo\":\"\",\"email\":\"\",\"description\":\"\"}}', '1429394860553');
 
 -- ----------------------------
 -- Table structure for cw_sort
@@ -79,6 +97,13 @@ CREATE TABLE `cw_sort` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Records of cw_sort
+-- ----------------------------
+INSERT INTO `cw_sort` VALUES ('1', 'aa', 'aa', '1', '0', '222asdasda', '');
+INSERT INTO `cw_sort` VALUES ('2', 'bb', 'bb', '2', '0', 'bbbbbbbbb', '');
+INSERT INTO `cw_sort` VALUES ('3', 'cc', 'cc', '3', '2', 'ccc', '');
+
+-- ----------------------------
 -- Table structure for cw_tag
 -- ----------------------------
 DROP TABLE IF EXISTS `cw_tag`;
@@ -89,6 +114,18 @@ CREATE TABLE `cw_tag` (
   PRIMARY KEY (`tid`),
   KEY `tagname` (`tagname`)
 ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cw_tag
+-- ----------------------------
+INSERT INTO `cw_tag` VALUES ('1', '222', ',5,');
+INSERT INTO `cw_tag` VALUES ('2', '333', ',5,');
+INSERT INTO `cw_tag` VALUES ('3', '555', ',5,');
+INSERT INTO `cw_tag` VALUES ('4', '6667', ',5,');
+INSERT INTO `cw_tag` VALUES ('5', '778', ',5,');
+INSERT INTO `cw_tag` VALUES ('6', '999', ',5,');
+INSERT INTO `cw_tag` VALUES ('7', 'sss', ',5,');
+INSERT INTO `cw_tag` VALUES ('8', 'dds　速度', ',5,');
 
 -- ----------------------------
 -- Table structure for cw_user
@@ -107,3 +144,8 @@ CREATE TABLE `cw_user` (
   PRIMARY KEY (`uid`),
   KEY `username` (`username`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of cw_user
+-- ----------------------------
+INSERT INTO `cw_user` VALUES ('1', 'admin', '21232f297a57a5a743894a0e4a801fc3', '', 'admin', 'n', '', '', '');
