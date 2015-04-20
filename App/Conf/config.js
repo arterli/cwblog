@@ -10,5 +10,6 @@ module.exports = {
   db_prefix: 'cw_', // 数据库表前缀
   //Session配置
   session_name: "cmswing", //session对应的cookie名称
-  session_type: "File" //session存储类型'File', 空为内存，还可以为Db
+  session_type: "File", //session存储类型'File', 空为内存，还可以为Db
+  filter_data: false //主要是安全过滤，强烈建议开启
 };

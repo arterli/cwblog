@@ -28,3 +28,13 @@ global.scanFolder = function (path) {
         'folders': folderList
     }
 }
+//判断一个值是否在一个数组中
+ global.in_array = function (stringToSearch, arrayToSearch) {
+    for (var s = 0; s < arrayToSearch.length; s++) {
+        var thisEntry = arrayToSearch[s].toString();
+        if (thisEntry == stringToSearch) {
+            return true;
+        }
+    }
+    return false;
+}

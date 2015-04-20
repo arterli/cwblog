@@ -2,6 +2,7 @@
  * Created by Arterli on 2015/4/18.
  */
 var fs = require('fs');
+var http = require("http");
 module.exports = Controller("Admin/BaseController", function () {
     return {
         indexAction: function () {
@@ -53,9 +54,9 @@ module.exports = Controller("Admin/BaseController", function () {
 
         },
         ceshiAction: function () {
-            var arr=["a","b","c","d"];
-            arr.push("x")
-            console.log(arr)
+            //var arr=["a","b","c","d"];
+            //arr.push("x")
+            //console.log(arr)
             //var re=this.getFullName();
             //var re = this.getFileExt();
             //var re = "upload/image/2015041339/14293792发士大夫58476889504.jpg";
@@ -224,20 +225,10 @@ module.exports = Controller("Admin/BaseController", function () {
                 }
             }
             /* 获取指定范围的列表 */
-            function in_array(stringToSearch, arrayToSearch) {
-                for (var s = 0; s < arrayToSearch.length; s++) {
-                    var thisEntry = arrayToSearch[s].toString();
-                    if (thisEntry == stringToSearch) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
             var len = files.length;
             var files_n=[];
             for(var i = 0; i<len ; i++){
-                var t= files[i].substr(files[i].lastIndexOf("."));
+                var t= files[i].substr(files[i].lastIndexOf(".")).toLocaleLowerCase();
                 if(in_array(t,allowFiles)){
                    files_n.push(files[i])
                 }
@@ -261,6 +252,7 @@ module.exports = Controller("Admin/BaseController", function () {
         //远程保存图片
         uploadcrawler: function () {
             var self = this;
+            var fullname, filename, filetype,oname;
             /* 上传配置 */
             var config = {
                     "pathFormat" : self.conf['catcherPathFormat'],
@@ -270,29 +262,73 @@ module.exports = Controller("Admin/BaseController", function () {
         };
             var fieldName = self.conf['catcherFieldName'];
 
+            //size=img.length;
             /* 抓取远程图片 */
             var list = [];
-            var source = self.post();
-            console.log(source)
-            //TODO
-            //foreach ($source as $imgUrl) {
-            //    $item = new Uploader($imgUrl, $config, "remote");
-            //    $info = $item->getFileInfo();
-            //    array_push($list, array(
-            //            "state" => $info["state"],
-            //        "url" => $info["url"],
-            //        "size" => $info["size"],
-            //        "title" => htmlspecialchars($info["title"]),
-            //        "original" => htmlspecialchars($info["original"]),
-            //        "source" => htmlspecialchars($imgUrl)
-            //));
-            //}
-            //
-            ///* 返回抓取数据 */
-            //return json_encode(array(
-            //            'state'=> count($list) ? 'SUCCESS':'ERROR',
-            //        'list'=> $list
-            //));
+            var source = self.post(fieldName+"[]");
+            var sourcearr=[];
+            if(typeof(source)=="string"){
+                sourcearr.push(source);
+                source=sourcearr;
+            }
+
+            source.forEach(function(url){
+                oname = url.match(/[\/]([^\/]*)[\.]?[^\.\/]*$/)[1];
+                fullname = self.getFullName(config, oname);//新的储存路径
+                filetype = self.getFileExt(oname);
+                //var img=url.replace("&amp;", "&");
+                fullname = fullname.substr(0,fullname.lastIndexOf("/")+1)+oname;
+
+                function donwpic(url){
+                    var deferred = getDefer();
+                http.get(url, function(res){
+                        var imgData = "";
+
+                        res.setEncoding("binary");
+
+
+                        res.on("data", function(chunk){
+                            imgData+=chunk;
+                        });
+
+                        res.on("end", function(){
+                            oname = url.match(/[\/]([^\/]*)[\.]?[^\.\/]*$/)[1];
+                            fullname = self.getFullName(config, oname);//新的储存路径
+                            filetype = self.getFileExt(oname);
+                            var fname = fullname.substr(0,fullname.lastIndexOf("/")+1)+oname;
+                            fs.writeFile(fname, imgData, "binary", function (err) {
+                                if (err) {
+                                    console.log('There was an error when write file');
+                                } else {
+                                    console.log(fname+'保存成功');
+
+                                }
+                            });
+                        });
+                    }).end();
+
+                };
+               return donwpic(url).then(function(){
+                    var furl="/"+fullname;
+                    list.push({"state":"SUCCESS","url":furl,"size":431521,"title":oname,"original":oname,"source":url});
+                    console.log("读取")
+                })
+               // if(isFile(fullname)){
+
+               // }
+
+            });
+            console.log("接收")
+            /* 返回抓取数据 */
+
+                return {
+                    state:list.length ? 'SUCCESS':'ERROR',
+                    list:list
+                }
+
+               //TODO 异步有问题还未解决！
+
+
         },
         //重命名文件
         getFullName: function (conf, oriName) {
@@ -326,7 +362,7 @@ module.exports = Controller("Admin/BaseController", function () {
         //获取文件扩展名
         getFileExt: function (oriName) {
             var filename = oriName;
-            return filename.substr(filename.search(/[/.]/)).toLocaleLowerCase();
+            return filename.substr(filename.lastIndexOf(".")).toLocaleLowerCase();
         },
         //获取文件名称
         getFileName: function (fullname) {
@@ -377,34 +413,7 @@ module.exports = Controller("Admin/BaseController", function () {
                 });
                 return self.display();
             }
-        },
-        //图片上传
-        //utilUploadImg: function(upImgName, upImgPath) {
-        //    var extension = '';
-        //    var finalFileName = '';
-        //
-        //    //处理后缀和文件名
-        //    upImgPath.indexOf('png') !== -1 ? extension = '.png' : extension = '.jpg';
-        //    finalFileName = new Date().getTime() + extension;
-        //
-        //    //读取文件
-        //    fs.readFile(upImgPath, function(err, data) {
-        //        if (err) {
-        //            console.log('There was an error when reading file');
-        //        } else {
-        //            //写入文件到uplaod
-        //            fs.writeFile('static/' + finalFileName, data, function(err) {
-        //                if (err) {
-        //                    console.log('There was an error when write file');
-        //                } else {
-        //                    console.log('saved');
-        //                }
-        //            });
-        //        }
-        //    });
-        //
-        //    return finalFileName;
-        //},
+        }
 
 
     }
