@@ -10,10 +10,11 @@ module.exports = Controller("Admin/BaseController" , function(){
         addarticleAction:function(){
             if(this.isPost()){
              var param = this.post();
+                console.log(param);
                 var data = {};
                 data.title = param.title;
-                data.content = param.editorValue;
-                console.log(data);
+                data.content = param.content;
+                return;
                 var self = this;
                 return D('article').add(data).then(function(id){
                     return self.success(id);

@@ -279,8 +279,7 @@ module.exports = Controller("Admin/BaseController", function () {
                 //var img=url.replace("&amp;", "&");
                 fullname = fullname.substr(0,fullname.lastIndexOf("/")+1)+oname;
 
-                function donwpic(url){
-                    var deferred = getDefer();
+
                 http.get(url, function(res){
                         var imgData = "";
 
@@ -307,12 +306,10 @@ module.exports = Controller("Admin/BaseController", function () {
                         });
                     }).end();
 
-                };
-               return donwpic(url).then(function(){
                     var furl="/"+fullname;
                     list.push({"state":"SUCCESS","url":furl,"size":431521,"title":oname,"original":oname,"source":url});
                     console.log("读取")
-                })
+
                // if(isFile(fullname)){
 
                // }
