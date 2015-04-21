@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/resource/css/dropdowns-enhancement.css"/>
     <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="/resource/js/tagEditor/jquery.tag-editor.css"/>
+    <link rel="stylesheet" href="/resource/css/bootstrap-switch.min.css"/>
     <link rel="stylesheet" href="/resource/css/admin.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,11 +33,11 @@
 
         </div>
         <div class="col-sm-9 col-md-10 main">
-            <h4 class="page-header"> <span aria-hidden="true" class="glyphicon glyphicon-pencil"></span> 写文章</h4>
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span> 写文章</h4>
 
             <form action="/admin/article/addarticle" method="post">
                 <div class="form-group">
-                    <label for="title" class="sr-only">标题</label>
+                    <label for="title" class="sr-only control-label">标题</label>
 
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -50,7 +51,8 @@
                                 <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Action</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#" tabindex="-1">Sub Action</a></li>
-                                        <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another sub action</a>
+                                        <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another
+                                            sub action</a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="#" tabindex="-1">Sub Action</a></li>
                                                 <li><a href="#" tabindex="-1">Another sub action</a></li>
@@ -60,7 +62,8 @@
                                         <li><a href="#" tabindex="-1">Something else here</a></li>
                                     </ul>
                                 </li>
-                                <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another action</a>
+                                <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another
+                                    action</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#" tabindex="-1">Sub Action</a></li>
                                         <li><a href="#" tabindex="-1">Another sub action</a></li>
@@ -76,31 +79,97 @@
 
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <div class="col-md-8">
-                        <label for="dtp_input1" >标签</label>
-                        <textarea id="hero-demo">example tags, sortable, autocomplete, edit in place</textarea>
+                        <label class="control-label" for="dtp_input1">标签</label>
+                        <textarea id="tags" name="tags">example tags, sortable, autocomplete, edit in place</textarea>
                     </div>
                     <div class="col-md-4">
-                    <label for="dtp_input1" >发布时间</label>
-                    <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    </div>
-                    <input type="hidden" id="dtp_input1" value="" />
+                        <label class="control-label" for="dtp_input1">发布时间</label>
+
+                        <div class="input-group date form_datetime" data-date="2012-06-15 14:45"
+                             data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
+                            <input class="form-control" id="time" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                        <input type="hidden" id="dtp_input1" value=""/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>简介</label>
-                    <script id="excerpt" name="excerpt" type="text/plain"></script>
-                </div>
-                <div class="form-group">
-                    <label>内容</label>
+                    <label class="control-label">内容</label>
                     <script id="content" name="content" type="text/plain" style="height:500px;"></script>
                 </div>
+               <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <a aria-controls="collapseExample" aria-expanded="true" href="#collapseExample" data-toggle="collapse" class="btn btn-sm btn-info">
+                          高级选项  <span class="caret"></span>
+                      </a>
+                  </div>
 
-                <button type="submit" class="btn btn-default">Submit</button>
+
+
+                <div class="collapse panel-collapse panel-body" id="collapseExample">
+                <div class="form-group">
+                    <label class="control-label">简介</label>
+                    <script id="excerpt" name="excerpt" type="text/plain"></script>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-md-4">
+                        <label class="control-label" for="alias">别名</label>
+                        <input type="text" class="form-control" id="alias" placeholder="输入别名 ..." name="alias">
+                    </div>
+                    <div class="col-md-4"><label class="control-label" for="password">访问密码</label>
+                        <input type="text" class="form-control" id="password" placeholder="输入访问密码 ..." name="password">
+                    </div>
+                    <div class="col-md-4"><label class="control-label">模板</label>
+
+                        <div class="">
+                            <div class="btn-group ">
+                                <button data-label-placement="" data-placeholder="Please select"
+                                        class="btn btn-default">选择模板
+                                </button>
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                                        class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <input type="radio" checked="" value="1" name="template" id="ex2_2_1">
+                                        <label for="ex2_2_1"><i class="icon-edit"></i> Edit</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" value="2" name="template" id="ex2_2_2">
+                                        <label for="ex2_2_2"><i class="icon-remove"></i> Remove</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" value="3" name="template" id="ex2_2_3">
+                                        <label for="ex2_2_3"><i class="icon-print"></i> Print</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        <label class="control-label" for="top">首页置顶</label>
+                        <input id="top" name="top" type="checkbox" data-off-text="否" data-on-text="是"></div>
+                    <div class="col-md-2">
+                        <label class="control-label" for="sortop">分类置顶</label>
+                        <input id="sortop" name="sortop" type="checkbox" data-off-text="否" data-on-text="是">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="control-label" for="allow_remark">允许评论</label>
+                        <input id="allow_remark" name="allow_remark" type="checkbox"  data-off-text="否" data-on-text="是" checked></div>
+                </div>
+                </div>
+                    </div>
+                <hr/>
+                <div class="">
+                <button type="submit" class="btn btn-primary">发布文章</button>
+                <button type="submit" class="btn btn-default">保存草稿</button>
+                </div>
             </form>
 
 
@@ -110,13 +179,14 @@
 <% include ../admin/include/footer.html %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/resource/js/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/resource/js/bootstrap.min.js"></script>
+<script src="/resource/js/jquery-ui.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script SRC="/resource/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/resource/js/dropdowns-enhancement.min.js"></script>
 <script src="/resource/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="/resource/js/tagEditor/jquery.tag-editor.min.js"></script>
-<script src="/resource/js/jquery-ui.min.js"></script>
+<script src="/resource/js/bootstrap-switch.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/resource/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/resource/js/ueditor/ueditor.all.min.js"></script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -139,9 +209,9 @@
         initialFrameHeight: 100,
     });
     $('.form_datetime').datetimepicker({
-        language:  'zh-CN',
+        language: 'zh-CN',
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn: 1,
         autoclose: 1,
         todayHighlight: 1,
         startView: 2,
@@ -150,35 +220,82 @@
     });
     // jQuery UI autocomplete extension - suggest labels may contain HTML tags
     // github.com/scottgonzalez/jquery-ui-extensions/blob/master/src/autocomplete/jquery.ui.autocomplete.html.js
-    (function($){var proto=$.ui.autocomplete.prototype,initSource=proto._initSource;function filter(array,term){var matcher=new RegExp($.ui.autocomplete.escapeRegex(term),"i");return $.grep(array,function(value){return matcher.test($("<div>").html(value.label||value.value||value).text());});}$.extend(proto,{_initSource:function(){if(this.options.html&&$.isArray(this.options.source)){this.source=function(request,response){response(filter(this.options.source,request.term));};}else{initSource.call(this);}},_renderItem:function(ul,item){return $("<li></li>").data("item.autocomplete",item).append($("<a></a>")[this.options.html?"html":"text"](item.label)).appendTo(ul);}});})(jQuery);
+    (function ($) {
+        var proto = $.ui.autocomplete.prototype, initSource = proto._initSource;
+
+        function filter(array, term) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(term), "i");
+            return $.grep(array, function (value) {
+                return matcher.test($("<div>").html(value.label || value.value || value).text());
+            });
+        }
+
+        $.extend(proto, {
+            _initSource: function () {
+                if (this.options.html && $.isArray(this.options.source)) {
+                    this.source = function (request, response) {
+                        response(filter(this.options.source, request.term));
+                    };
+                } else {
+                    initSource.call(this);
+                }
+            }, _renderItem: function (ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append($("<a></a>")[this.options.html ? "html" : "text"](item.label)).appendTo(ul);
+            }
+        });
+    })(jQuery);
 
     var cache = {};
     function googleSuggest(request, response) {
         var term = request.term;
-        if (term in cache) { response(cache[term]); return; }
+        if (term in cache) {
+            response(cache[term]);
+            return;
+        }
         $.ajax({
             url: 'http://query.yahooapis.com/v1/public/yql',
             dataType: 'JSONP',
-            data: { format: 'json', q: 'select * from xml where url="http://google.com/complete/search?output=toolbar&q='+term+'"' },
-            success: function(data) {
+            data: {
+                format: 'json',
+                q: 'select * from xml where url="http://google.com/complete/search?output=toolbar&q=' + term + '"'
+            },
+            success: function (data) {
                 var suggestions = [];
-                try { var results = data.query.results.toplevel.CompleteSuggestion; } catch(e) { var results = []; }
-                $.each(results, function() {
+                try {
+                    var results = data.query.results.toplevel.CompleteSuggestion;
+                } catch (e) {
+                    var results = [];
+                }
+                $.each(results, function () {
                     try {
                         var s = this.suggestion.data.toLowerCase();
-                        suggestions.push({label: s.replace(term, '<b>'+term+'</b>'), value: s});
-                    } catch(e){}
+                        suggestions.push({label: s.replace(term, '<b>' + term + '</b>'), value: s});
+                    } catch (e) {
+                    }
                 });
                 cache[term] = suggestions;
                 response(suggestions);
             }
         });
     }
-    $(function() {
-        $('#hero-demo').tagEditor({
+    $(function () {
+        $('#tags').tagEditor({
             placeholder: '输入关键词 ...',
-            autocomplete: { source: googleSuggest, minLength: 3, delay: 250, html: true, position: { collision: 'flip' } }
+            autocomplete: {source: googleSuggest, minLength: 3, delay: 250, html: true, position: {collision: 'flip'}}
         });
+        $("[name='top']").bootstrapSwitch();
+        $("[name='sortop']").bootstrapSwitch();
+        $("[name='allow_remark']").bootstrapSwitch();
+        var date= new Date();
+        var y=date.getFullYear();
+        var M=date.getMonth()+1;
+            M=M<10?"0"+M:M;
+        var d=date.getDate();
+            d=d<10?"0"+d:d;
+        var h=date.getHours();
+        var m=date.getMinutes();
+        var time= y+"-"+M+"-"+d+" "+h+":"+h
+        $("#time").val(time);
     });
 </script>
 </body>
