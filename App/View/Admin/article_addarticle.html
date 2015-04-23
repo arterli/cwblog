@@ -293,8 +293,10 @@
         var d=date.getDate();
             d=d<10?"0"+d:d;
         var h=date.getHours();
+        h=h<10?"0"+h:h;
         var m=date.getMinutes();
-        var time= y+"-"+M+"-"+d+" "+h+":"+h
+        m=m<10?"0"+m:m;
+        var time= y+"-"+M+"-"+d+" "+h+":"+m;
         $("#time").val(time);
     });
 </script>

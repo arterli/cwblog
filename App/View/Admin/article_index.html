@@ -40,12 +40,17 @@
                        data-pagination="true"
                        data-side-pagination="server"
                        data-page-list="[5, 10, 20, 50, 100, 200]"
+                       data-page-size="20"
                        >
                     <thead>
                     <tr>
-                        <th data-field="id" data-formatter="idFormatter">ID</th>
-                        <th data-field="name">Item Name</th>
-                        <th data-field="price">Item Price</th>
+                        <th data-field="state" data-checkbox="true"></th>
+                        <th data-field="gid" data-formatter="idFormatter">ID</th>
+                        <th data-field="title">标题</th>
+                        <th data-field="username">作者</th>
+                        <th data-field="type">分类</th>
+                        <th data-field="date">时间</th>
+                        <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">Item Operate</th>
                     </tr>
                     </thead>
                 </table>
@@ -62,6 +67,35 @@
 <script src="/resource/js/bootstrap.min.js"></script>
 <script src="/resource/js/bootstrap-table.js"></script>
 <script src="/resource/js/bootstrap-table-zh-CN.js"></script>
+<script>
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-heart"></i>',
+            '</a>',
+            '&nbsp;&nbsp;<a class="edit ml10" href="javascript:void(0)" title="Edit">',
+            '<i class="glyphicon glyphicon-edit"></i>',
+            '</a>',
+            '&nbsp;&nbsp;<a class="remove ml10" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
 
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like icon, row: ' + JSON.stringify(row));
+            console.log(value, row, index);
+        },
+        'click .edit': function (e, value, row, index) {
+            alert('You click edit icon, row: ' + JSON.stringify(row));
+            console.log(value, row, index);
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click remove icon, row: ' + JSON.stringify(row));
+            console.log(value, row, index);
+        }
+    };
+</script>
 </body>
 </html>
