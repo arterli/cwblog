@@ -36,6 +36,7 @@ module.exports = Controller("Admin/BaseController" , function(){
                     });
                     rows.push({date:time,gid:item.gid,title:item.title,type:item.type});
                     console.log(author)
+                    //TODO
                 })
 
                 datas.rows=rows;
