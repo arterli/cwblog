@@ -21,7 +21,6 @@
 <body>
 
 <% include ../admin/include/nav.html %> <!--顶部导航-->
-
 <div class="container">
     <div class="row">
         <div class="col-sm-3 col-md-2">
@@ -29,7 +28,7 @@
 
         </div>
         <div class="col-sm-9 col-md-10 main">
-            <h4 class="page-header">文章管理</h4>
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span>  文章管理</h4>
                 <table id="table"
                        data-toggle="table"
                        data-url="data"
@@ -50,7 +49,7 @@
                         <th data-field="username">作者</th>
                         <th data-field="type">分类</th>
                         <th data-field="date">时间</th>
-                        <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">Item Operate</th>
+                        <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">编辑</th>
                     </tr>
                     </thead>
                 </table>

@@ -27,6 +27,7 @@ module.exports = Controller(function(){
           //用户已经登陆获取用户信息
           self.userInfo = userInfo;
           self.assign('user',userInfo);
+          self.assign('active','');
         }
       });
     }

@@ -1,11 +1,11 @@
 <div class="sidebar">
     <ul class="nav nav-sidebar">
-        <li class="active"><a href="/admin/article/addarticle"><span class="glyphicon glyphicon-pencil"></span> 写文章</a></li>
-        <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-inbox"></span> 草稿箱 <span class="badge">4</span> </a></li>
-        <li><a href="/admin/article/index"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span> 文章</a></li>
-        <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> 标签</a></li>
-        <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-list"></span> 分类</a></li>
-        <li><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-comment"></span> 评论</a></li>
+        <li <%if(active=="adderticle"){%> class="active" <%}%> ><a href="/admin/article/addarticle"><span class="glyphicon glyphicon-pencil"></span> 写文章</a></li>
+        <li <%if(active=="cg"){%> class="active" <%}%>><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-inbox"></span> 草稿箱 <span class="badge">4</span> </a></li>
+        <li <%if(active=="articleindex"){%> class="active" <%}%>><a href="/admin/article/index"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span> 文章</a></li>
+        <li <%if(active=="tags"){%> class="active" <%}%>><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> 标签</a></li>
+        <li <%if(active=="fenlei"){%> class="active" <%}%>><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-list"></span> 分类</a></li>
+        <li <%if(active=="pl"){%> class="active" <%}%>><a href="#"><span aria-hidden="true" class="glyphicon glyphicon-comment"></span> 评论</a></li>
     </ul>
     <ul class="nav nav-sidebar">
         <li><a href="">Nav item</a></li>
