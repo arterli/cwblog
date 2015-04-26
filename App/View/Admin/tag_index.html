@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>文章管理</title>
+    <title>后台管理|标签管理</title>
 
     <!-- Bootstrap -->
     <link href="/resource/css/bootstrap.min.css" rel="stylesheet">
@@ -30,36 +30,15 @@
 
         </div>
         <div class="col-sm-9 col-md-10 main">
-            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span>  文章管理</h4>
-            <div class="btn-group ">
-                <button data-label-placement="" data-placeholder="Please select"
-                        class="btn btn-default">全部分类
-                </button>
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
-                        class="caret"></span></button>
-                <ul class="dropdown-menu" id="load-data">
-                    <li>
-                        <input type="radio" checked="" value="" name="cateid" id="cateid2_2_1">
-                        <label for="cateid2_2_1"><i class="icon-edit"></i> 全部分类</label>
-                    </li>
-                    <li>
-                        <input type="radio" value="0" name="cateid" id="cateid2_2_1a">
-                        <label for="cateid2_2_1a"><i class="icon-edit"></i> 未分类</label>
-                    </li>
-                    <li role="presentation" class="divider"></li>
-                    <% category.forEach(function(item){ %>
-                    <li>
-                        <input type="radio" value="<%=item.cid%>" name="cateid" id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>">
-                        <label for="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>"><i class="icon-remove"></i>|-<%=new Array(item.deep*2).join("-")%> <%=item.catename%></label>
-                    </li>
-                    <% }) %>
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> 标签管理</h4>
+            <a href="/admin/category/edit" type="button" class="btn btn-primary mbot10">
+                <span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+                添加分类</a>
 
-                </ul>
-            </div>
-            <div style="margin-top: -45px">
-            <table id="table"
+            <div style="margin-top: -55px">
+                <table id="table"
                        data-toggle="table"
-                       data-url="/admin/article/data/hide/off"
+                       data-url="/admin/tag/data"
                        data-show-columns="true"
                        data-search="true"
                        data-show-refresh="true"
@@ -68,15 +47,13 @@
                        data-side-pagination="server"
                        data-page-list="[5, 10, 20, 50, 100, 200]"
                        data-page-size="20"
-                       >
+                        >
                     <thead>
                     <tr>
                         <th data-field="state" data-checkbox="true"></th>
-                        <th data-field="gid" data-formatter="idFormatter">ID</th>
-                        <th data-field="title">标题</th>
-                        <th data-field="username">作者</th>
-                        <th data-field="type">分类</th>
-                        <th data-field="date">时间</th>
+                        <th data-field="tid" data-formatter="idFormatter">ID</th>
+                        <th data-field="tagname">名称</th>
+                        <th data-field="gid">文章ID</th>
                         <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">编辑</th>
                     </tr>
                     </thead>
@@ -96,20 +73,9 @@
 <script src="/resource/js/bootstrap-table.js"></script>
 <script src="/resource/js/bootstrap-table-zh-CN.js"></script>
 <script>
-    $(function(){
-        $('#load-data>li').click(function () {
-            var cid=$(this).find("input").val();
-            $("#table").bootstrapTable('refresh', {
-                url: '/admin/article/data/hide/off?cid='+cid
-            });
-        });
-    });
     function operateFormatter(value, row, index) {
         return [
-            '<a class="like" href="javascript:void(0)" title="放入草稿箱">',
-            '<i class="glyphicon glyphicon-inbox"></i>',
-            '</a>',
-            '&nbsp;&nbsp;<a class="edit ml10" href="javascript:void(0)" title="编辑">',
+            '<a class="edit ml10" href="javascript:void(0)" title="编辑">',
             '<i class="glyphicon glyphicon-edit"></i>',
             '</a>',
             '&nbsp;&nbsp;<a class="remove ml10" href="javascript:void(0)" title="删除">',
@@ -119,10 +85,6 @@
     }
 
     window.operateEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
         'click .edit': function (e, value, row, index) {
             alert('You click edit icon, row: ' + JSON.stringify(row));
             console.log(value, row, index);
@@ -132,6 +94,7 @@
             console.log(value, row, index);
         }
     };
+
 </script>
 </body>
 </html>

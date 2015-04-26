@@ -31,7 +31,7 @@
         <div class="col-sm-9 col-md-10 main">
             <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list"></span> 分类编辑</h4>
 
-            <form action="categoryedit" method="post" class="col-md-4">
+            <form action="/admin/category/edit" method="post" class="col-md-4">
                 <div class="form-group">
                     <label for="catename">名称: (*) </label>
                     <input type="text" class="form-control" id="catename" name="catename" placeholder="输入名称 ...">
@@ -48,14 +48,13 @@
                     <label for="pid">父分类: </label>
                     <select class="form-control" id="pid" name="pid">
                         <option value="0">无</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <%category.forEach(function(item){%>
+                        <option value="<%=item.cid%>">|-<%=new Array(item.deep*2).join("-")%>  <%=item.catename%></option>
+                        <%})%>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="description">父分类: </label>
+                    <label for="description">描述: </label>
                     <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                 </div>
                 <div class="form-group">
@@ -70,7 +69,7 @@
                 </div>
                 <hr/>
                 <div class="">
-                    <button type="submit" class="btn btn-primary">发布文章</button>
+                    <button type="submit" class="btn btn-primary">添加分类</button>
                 </div>
             </form>
 

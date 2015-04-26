@@ -35,44 +35,29 @@
         <div class="col-sm-9 col-md-10 main">
             <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span> 写文章</h4>
 
-            <form action="/admin/article/addarticle" method="post">
+            <form action="/admin/article/edit" method="post">
                 <div class="form-group">
                     <label for="title" class="sr-only control-label">标题</label>
 
                     <div class="input-group">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="button">分类</button>
-                            <button aria-expanded="false" data-toggle="dropdown" class="btn btn-default dropdown-toggle"
-                                    type="button">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
+                        <div class="input-group-btn ">
+                            <a data-label-placement="" data-placeholder="Please select"
+                                    class="btn btn-default">选择分类
+                            </a>
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                                    class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Action</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#" tabindex="-1">Sub Action</a></li>
-                                        <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another
-                                            sub action</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#" tabindex="-1">Sub Action</a></li>
-                                                <li><a href="#" tabindex="-1">Another sub action</a></li>
-                                                <li><a href="#" tabindex="-1">Something else here</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#" tabindex="-1">Something else here</a></li>
-                                    </ul>
+                                <li>
+                                    <input type="radio" checked="" value="0" name="cateid" id="cateid2_2_1">
+                                    <label for="cateid2_2_1"><i class="icon-edit"></i> 选择分类</label>
                                 </li>
-                                <li class="dropdown-submenu"><a href="#" tabindex="-1" data-toggle="dropdown">Another
-                                    action</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#" tabindex="-1">Sub Action</a></li>
-                                        <li><a href="#" tabindex="-1">Another sub action</a></li>
-                                        <li><a href="#" tabindex="-1">Something else here</a></li>
-                                    </ul>
+                                <% category.forEach(function(item){ %>
+                                <li>
+                                    <input type="radio" value="<%=item.cid%>" name="cateid" id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>">
+                                    <label for="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>"><i class="icon-remove"></i>|-<%=new Array(item.deep*2).join("-")%> <%=item.catename%></label>
                                 </li>
-                                <li><a href="#" tabindex="-1">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" tabindex="-1">Separated link</a></li>
+                                <% }) %>
+
                             </ul>
                         </div>
                         <input type="text" class="form-control" id="title" placeholder="输入标题 ..." name="title">
@@ -128,9 +113,9 @@
 
                         <div class="">
                             <div class="btn-group ">
-                                <button data-label-placement="" data-placeholder="Please select"
+                                <a data-label-placement="" data-placeholder="Please select"
                                         class="btn btn-default">选择模板
-                                </button>
+                                </a>
                                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
                                         class="caret"></span></button>
                                 <ul class="dropdown-menu">
@@ -167,8 +152,13 @@
                     </div>
                 <hr/>
                 <div class="">
+                <input type="hidden" name="author" value="<%=user.uid%>" >
                 <button type="submit" class="btn btn-primary">发布文章</button>
-                <button type="submit" class="btn btn-default">保存草稿</button>
+                    <div class="checkbox btn">
+                        <label >
+                            <input type="checkbox" name="hide" value="on"> 保存草稿
+                        </label>
+                    </div>
                 </div>
             </form>
 

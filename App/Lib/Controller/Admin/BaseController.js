@@ -14,8 +14,8 @@ module.exports = Controller(function(){
         return;
       }
       var self = this;
-      return self.session('userInfo').then(function(userInfo){
-        if(isEmpty(userInfo)){
+      return self.session('userInfo').then(function(data){
+        if(isEmpty(data)){
           //ajax访问返回一个json的错误信息
           if (self.isAjax()) {
             return self.error(403);
@@ -25,9 +25,11 @@ module.exports = Controller(function(){
           }
         }else{
           //用户已经登陆获取用户信息
-          self.userInfo = userInfo;
-          self.assign('user',userInfo);
+          self.assign('user',data);
           self.assign('active','');
+            return D('article').where({hide: 'on'}).count('gid').then(function (count) {
+                self.assign('count',count);
+            })
         }
       });
     }

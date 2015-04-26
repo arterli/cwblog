@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>文章管理</title>
+    <title>草稿箱</title>
 
     <!-- Bootstrap -->
     <link href="/resource/css/bootstrap.min.css" rel="stylesheet">
@@ -30,7 +30,7 @@
 
         </div>
         <div class="col-sm-9 col-md-10 main">
-            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span>  文章管理</h4>
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-inbox"></span>  草稿箱</h4>
             <div class="btn-group ">
                 <button data-label-placement="" data-placeholder="Please select"
                         class="btn btn-default">全部分类
@@ -59,7 +59,7 @@
             <div style="margin-top: -45px">
             <table id="table"
                        data-toggle="table"
-                       data-url="/admin/article/data/hide/off"
+                       data-url="/admin/article/data/hide/on"
                        data-show-columns="true"
                        data-search="true"
                        data-show-refresh="true"
@@ -100,14 +100,14 @@
         $('#load-data>li').click(function () {
             var cid=$(this).find("input").val();
             $("#table").bootstrapTable('refresh', {
-                url: '/admin/article/data/hide/off?cid='+cid
+                url: '/admin/article/data/hide/on?cid='+cid
             });
         });
     });
     function operateFormatter(value, row, index) {
         return [
-            '<a class="like" href="javascript:void(0)" title="放入草稿箱">',
-            '<i class="glyphicon glyphicon-inbox"></i>',
+            '<a class="like" href="javascript:void(0)" title="发布">',
+            '<i class="glyphicon glyphicon-list-alt"></i>',
             '</a>',
             '&nbsp;&nbsp;<a class="edit ml10" href="javascript:void(0)" title="编辑">',
             '<i class="glyphicon glyphicon-edit"></i>',

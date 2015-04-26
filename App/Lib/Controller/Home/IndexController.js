@@ -6,7 +6,7 @@ module.exports = Controller("Home/BaseController", function(){
   "use strict";
   return {
     indexAction: function(){
-      //render View/Home/article_addarticle.html file
+      //render View/Home/article_edit.html file
       this.display();
     },
     formAction:function(){

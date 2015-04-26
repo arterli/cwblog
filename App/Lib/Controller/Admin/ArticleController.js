@@ -6,24 +6,54 @@ module.exports = Controller("Admin/BaseController", function () {
     return {
         indexAction: function () {
             //文章管理
+            var cate = D('category').select().then(function (data) {
+                return get_children(data, 0);
+            });
             this.assign({
+                category: cate,
                 active: 'articleindex'//当前高亮
+            });
+            this.display();
+
+        },
+        draftAction: function () {
+            //文章管理
+            var cate = D('category').select().then(function (data) {
+                return get_children(data, 0);
+            });
+            this.assign({
+                category: cate,
+                active: 'draft'//当前高亮
             });
             this.display();
 
         },
         dataAction: function () {
             var self = this;
-            var page = (this.get("offset") / 10) + 1;
+            var page = this.get("offset") > 1 ? (this.get("offset") / 20) + 1 : 1;
+           // console.log(page)
             var limit = this.get("limit");
             var search = this.get('search').length > 0 ? this.get('search') : "";
-            D('Article').field('gid,title,username,date,type')
+            var where={title: ['like', '%' + search + '%']}
+            if(this.get("cid")){
+                where.cateid=this.get("cid");
+            }
+            if(this.get("hide")){
+                where.hide=this.get("hide");
+            }
+            //console.log(where);
+            return D('article').field('gid,title,username,date,catename')
                 .join({
                     table: 'user',
-                    join: 'inner', //join方式，有 left, right, inner 3种方式
+                    join: 'left', //join方式，有 left, right, inner 3种方式
                     as: 'u', //表别名
                     on: ['author', 'uid'] //ON条件
-                }).page(page, limit).order('date desc').where({title: ['like', '%' + search + '%']}).countSelect().then(function (da) {
+                }).join({
+                    table: 'category',
+                    join: 'left', //join方式，有 left, right, inner 3种方式
+                    as: 'c', //表别名
+                    on: ['cateid', 'cid'] //ON条件
+                }).page(page, limit).order('date desc').where(where).countSelect().then(function (da) {
                     //data的数据格式为
                     var datas = {};
                     datas.total = da.count;
@@ -41,11 +71,12 @@ module.exports = Controller("Admin/BaseController", function () {
                         var m = date.getMinutes();
                         m = m < 10 ? "0" + m : m;
                         var time = y + "-" + M + "-" + d + " " + h + ":" + m;
+                        var catename = item.catename ? item.catename : "未分类";
                         rows.push({
                             date: time,
                             gid: item.gid,
-                            title: item.title,
-                            type: item.type,
+                            title: '<a class="view ml10" href="'+item.gid+'" title="访问"><i class="glyphicon glyphicon-link"></i></a> '+item.title,
+                            type: catename,
                             username: item.username
                         });
 
@@ -53,6 +84,7 @@ module.exports = Controller("Admin/BaseController", function () {
                     });
 
                     datas.rows = rows;
+                    //console.log(datas)
                     self.json(datas)
                 });
 
@@ -70,71 +102,56 @@ module.exports = Controller("Admin/BaseController", function () {
 
             });
         },
-        addarticleAction: function () {
+        editAction: function () {
             if (this.isPost()) {
                 var param = this.post();
                 param.date = new Date().valueOf();
-                console.log(param);
+                //console.log(param);
                 var self = this;
+
                 return D('article').add(param).then(function (id) {
-                    return self.success(id);
+                    if (self.post('tags')) {
+                        //var ids=id;
+                        var tags = self.post('tags').split(",");
+                        tags.forEach(function (item) {
+                            var tag = {tagname: item, gid: id}
+                            var where = {tagname: item}
+                            return D('tag').thenAdd(tag, where, true).then(function (data) {
+                                //console.log(data)
+                                if (data.type == "exist") {
+                                    D('tag').where({tid: data.id}).getField('gid', true).then(function (gid) {
+                                        //ids=gid.push(data.id);
+                                        var ids = gid + "," + id;
+                                        //console.log(ids)
+                                        return D('tag').where({tid: data.id}).update({gid: ids}).then(function (ok) {
+                                            //console.log(ok)
+                                            return self.redirect("/admin/article");
+                                        })
+                                    })
+                                } else {
+                                    return self.redirect("/admin/article");
+                                }
+
+                            })
+                        })
+
+
+                    }
                 }).catch(function (err) {
                     return self.error(err);
                 });
             } else {
+
+                var cate = D('category').select().then(function (data) {
+                    return get_children(data, 0);
+                });
                 this.assign({
-                    active: "adderticle" //当前高亮
+                    category: cate,
+                    active: "article_deit" //当前高亮
                 });
-                this.display();
-            }
-            ;
-        },
-        categoryAction: function () {//分类
-
-            var self = this;
-            function tree(data,pid,count) {
-                var ss=[]
-               for(var key in data){
-                   var pid=data[key].pid
-                   var cid=data[key].cid
-                     if(cid=pid){
-                         data[key].con=count;
-                         ss.push(data);
-                         //tree(data,pid,count+1);
-                     }
-                  console.log(ss);
-               }
-               // $items[$item['pid']]['son'][$item['id']] = &$items[$item['id']];
-               // return isset($items[0]['son']) ? $items[0]['son'] : array();
-            }
-            D('category').select().then(function(data){
-           tree(data,0,1);
-
-            })
-            this.assign({
-                active: "category" //当前高亮
-            });
-            this.display();
-        },
-        categoryeditAction: function () { //编辑分类
-            if (this.isPost()) {
-               var param = this.post();
-                console.log(param);
-                var self = this;
-                return D('category').add(param).then(function(id){
-                    return self.redirect('category');
-                }).catch(function(err){
-                    return self.error(err);
-                });
-            } else {
-                this.assign({
-                    active: "category" //当前高亮
-                });
-
                 this.display();
             }
 
         }
-
     };
 });

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>后台</title>
+
+    <!-- Bootstrap -->
+    <link href="/resource/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resource/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/resource/css/admin.css"/>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<% include ../admin/include/nav.html %> <!--顶部导航-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+            <% include ../admin/include/sidebar.html %> <!--左侧菜单-->
+
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list"></span> 分类管理</h4>
+            <a href="/admin/category/edit" type="button" class="btn btn-primary mbot10">
+                <span aria-hidden="true" class="glyphicon glyphicon-plus"></span>
+                添加分类</a>
+
+            <div class="tree">
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<% include ../admin/include/footer.html %>
+<script src="/resource/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/resource/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        /* 生成HTML ul/li 形式 */
+        function category_to_html(nodes) {
+            var html = [];
+            var size = nodes.length;
+            var left = null;
+            var right = null;
+            var text;
+            var stack = [];
+
+            html.push("<ul>");
+
+            for (var i = 0; i < size; i++) {
+                left = nodes[i];
+
+                //text = [left["id"],left["name"]].join(",");
+                text = '<a href="#"><i class="glyphicon glyphicon-link"></i></a> <code>id:' + left["cid"] + '</code> <code>排序:' + left["taxis"] + '</code> <code>别名:' + left["alias"] + '</code> <code>文章数量:333</code> <a href="">修改</a> <a href="">删除</a>';
+                if (i + 1 < size) {
+                    right = nodes[i + 1];
+                    /* 入深 */
+                    if (left["deep"] < right["deep"]) {
+                        html.push("<li>");
+                        html.push('<span><i class="glyphicon glyphicon-folder-open"></i>  ' + left["catename"] + ' </span> ')
+                        html.push(text);
+                        html.push("<ul>");
+                        stack.push(1);
+                    } else {
+                        html.push("<li>");
+                        html.push('<span><i class="glyphicon glyphicon-leaf"></i>  ' + left["catename"] + ' </span> ');
+                        html.push(text);
+                        html.push("</li>");
+                    }
+                    /* 逐层跳出 */
+                    if (left["deep"] > right["deep"]) {
+                        for (var j = 0; j < left["deep"] - right["deep"]; j++) {
+                            stack.pop();
+                            html.push("</ul>");
+                            html.push("</li>");
+                        }
+                    }
+                } else {
+                    if (stack.length > 0) {
+                        html.push("<li>");
+                        html.push('<span><i class="glyphicon glyphicon-leaf"></i>  ' + left["catename"] + ' </span>');
+                        html.push(text);
+                        html.push("</li>");
+                        while (stack.pop()) {
+                            html.push("</ul>");
+                            html.push("</li>");
+                        }
+                    } else {
+                        html.push("<li>");
+                        html.push('<span><i class="glyphicon glyphicon-leaf"></i>  ' + left["catename"] + ' </span>');
+                        html.push(text);
+                        html.push("</li>");
+                    }
+                }
+            }
+            html.push("</ul>");
+            return html.join("\n");
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/category/category",
+            data: "name=tree",
+            success: function (msg) {
+                /* 展示生成的HTML */
+                $(".tree").html(category_to_html(msg));
+                $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+                $('.tree li.parent_li > span').on('click', function (e) {
+                    var children = $(this).parent('li.parent_li').find(' > ul > li');
+                    if (children.is(":visible")) {
+                        children.hide('fast');
+                        $(this).attr('title', 'Expand this branch').find(' > i').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open');
+                    } else {
+                        children.show('fast');
+                        $(this).attr('title', 'Collapse this branch').find(' > i').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close');
+                    }
+                    e.stopPropagation();
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
