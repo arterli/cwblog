@@ -93,7 +93,7 @@ module.exports = Controller("Admin/BaseController", function () {
             var self = this;
             D('article').field('gid,title,username,date').join({
                 table: 'user',
-                join: 'inner', //join方式，有 left, right, inner 3种方式
+                join: 'inner', //join方式，有 left, right, inner 3种方式，
                 as: 'u', //表别名
                 on: ['author', 'uid'] //ON条件
             }).page(1, 2).countSelect().then(function (data) {
