@@ -7,22 +7,18 @@ module.exports = Controller("Home/BaseController", function(){
   return {
     indexAction: function(){
       //render View/Home/article_edit.html file
-      this.display();
+      this.action('home/index/home');
     },
-    formAction:function(){
+      homeAction: function(){
 
-        this.display()
-    },
-
-    jieshouAction:function(){
-     var p=this.post();
-      console.log(p);
-      var fh={};
-      fh.emal= p.emal;
-      fh.pass= p.password;
-      fh.ck= p.ck;
-      this.end(fh);
-    }
+          this.display();
+      },
+      blogAction:function(){
+          this.display();
+      },
+      catAction:function(){
+          this.display();
+      }
 
   };
 });
