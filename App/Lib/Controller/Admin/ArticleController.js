@@ -31,7 +31,7 @@ module.exports = Controller("Admin/BaseController", function () {
         dataAction: function () {
             var self = this;
             var page = this.get("offset") > 1 ? (this.get("offset") / 20) + 1 : 1;
-           // console.log(page)
+            // console.log(page)
             var limit = this.get("limit");
             var search = this.get('search').length > 0 ? this.get('search') : "";
             var where={title: ['like', '%' + search + '%']}
@@ -136,7 +136,10 @@ module.exports = Controller("Admin/BaseController", function () {
                         })
 
 
+                    }else{
+                        return self.redirect("/admin/article");
                     }
+
                 }).catch(function (err) {
                     return self.error(err);
                 });

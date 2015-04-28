@@ -60,7 +60,7 @@
 
                             </ul>
                         </div>
-                        <input type="text" class="form-control" id="title" placeholder="输入标题 ..." name="title">
+                        <input type="text" class="form-control" id="title" placeholder="输入标题 ..." required="required" name="title">
 
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="form-group row">
                     <div class="col-md-8">
                         <label class="control-label" for="dtp_input1">标签</label>
-                        <textarea id="tags" name="tags">example tags, sortable, autocomplete, edit in place</textarea>
+                        <textarea id="tags" name="tags" placeholder="输入标签 ..."></textarea>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label" for="dtp_input1">发布时间</label>
@@ -268,6 +268,7 @@
             }
         });
     }
+
     $(function () {
         $('#tags').tagEditor({
             placeholder: '输入关键词 ...',
