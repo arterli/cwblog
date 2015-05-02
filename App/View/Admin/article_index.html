@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/resource/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/resource/css/dropdowns-enhancement.css"/>
     <link rel="stylesheet" href="/resource/css/bootstrap-table.min.css"/>
+    <link rel="stylesheet" href="/resource/css/toastr.min.css"/>
     <link rel="stylesheet" href="/resource/css/admin.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +31,8 @@
 
         </div>
         <div class="col-sm-9 col-md-10 main">
-            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span>  文章管理</h4>
+            <h4 class="page-header"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span> 文章管理</h4>
+
             <div class="btn-group ">
                 <button data-label-placement="" data-placeholder="Please select"
                         class="btn btn-default">全部分类
@@ -49,15 +51,23 @@
                     <li role="presentation" class="divider"></li>
                     <% category.forEach(function(item){ %>
                     <li>
-                        <input type="radio" value="<%=item.cid%>" name="cateid" id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>">
-                        <label for="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>"><i class="icon-remove"></i>|-<%=new Array(item.deep*2).join("-")%> <%=item.catename%></label>
+                        <input type="radio" value="<%=item.cid%>" name="cateid"
+                               id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>">
+                        <label for="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>"><i class="icon-remove"></i>|-<%=new
+                            Array(item.deep*2).join("-")%> <%=item.catename%></label>
                     </li>
                     <% }) %>
 
                 </ul>
             </div>
+            <div class="btn-group">
+                <button class="btn btn-default" id="check-all" data-method="checkAll">全选</button>
+                <button class="btn btn-default" id="uncheck-all" data-method="uncheckAll">取消</button>
+            </div>
+            <button class="btn btn-default" id="delete">删除</button>
+            <button class="btn btn-default" id="draft">放到草稿箱</button>
             <div style="margin-top: -45px">
-            <table id="table"
+                <table id="table"
                        data-toggle="table"
                        data-url="/admin/article/data/hide/off"
                        data-show-columns="true"
@@ -68,7 +78,7 @@
                        data-side-pagination="server"
                        data-page-list="[5, 10, 20, 50, 100, 200]"
                        data-page-size="20"
-                       >
+                        >
                     <thead>
                     <tr>
                         <th data-field="state" data-checkbox="true"></th>
@@ -87,6 +97,7 @@
         </div>
     </div>
 </div>
+
 <% include ../admin/include/footer.html %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/resource/js/jquery.min.js"></script>
@@ -95,13 +106,68 @@
 <script src="/resource/js/dropdowns-enhancement.min.js"></script>
 <script src="/resource/js/bootstrap-table.js"></script>
 <script src="/resource/js/bootstrap-table-zh-CN.js"></script>
+<script src="/resource/js/bootbox.min.js"></script>
+<script src="/resource/js/toastr.min.js"></script>
 <script>
-    $(function(){
+    $(function () {
+
+
         $('#load-data>li').click(function () {
-            var cid=$(this).find("input").val();
+            var cid = $(this).find("input").val();
             $("#table").bootstrapTable('refresh', {
-                url: '/admin/article/data/hide/off?cid='+cid
+                url: '/admin/article/data/hide/off?cid=' + cid
             });
+        });
+
+        $('#check-all').click(function () {
+            $("#table").bootstrapTable("checkAll");
+        });
+        $('#uncheck-all').click(function () {
+            $("#table").bootstrapTable("uncheckAll");
+        });
+        $('#delete').click(function(){
+            var sele=$("#table").bootstrapTable('getSelections');
+            if(sele.length==0){
+                bootbox.alert({
+                    size:'small',
+                    message:"您还没有选择文章！"
+                })
+            }else{
+                var gid=[];
+                sele.forEach(function(item){
+                    gid.push(item.gid);
+                })
+                gid=gid.join(",");
+                bootbox.confirm({
+                    size: 'small',
+                    message: "你确定要删除所选文章吗？",
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/admin/article/dele',
+                                data: {gid: gid},
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    $("#table").bootstrapTable('refresh');
+                                    toastr.options = {
+                                        "timeOut": "1500",
+                                        "closeButton": true,
+                                        "positionClass": "toast-bottom-right"
+                                    };
+                                    toastr.success('成功删除' + data + '篇文章！');
+                                    console.log(data);
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+            }
+
+
+
         });
     });
     function operateFormatter(value, row, index) {
@@ -109,7 +175,7 @@
             '<a class="like" href="javascript:void(0)" title="放入草稿箱">',
             '<i class="glyphicon glyphicon-inbox"></i>',
             '</a>',
-            '&nbsp;&nbsp;<a class="edit ml10" href="javascript:void(0)" title="编辑">',
+            '&nbsp;&nbsp;<a href="/admin/article/edit/gid/'+row.gid+'" class="edit ml10" href="javascript:void(0)" title="编辑">',
             '<i class="glyphicon glyphicon-edit"></i>',
             '</a>',
             '&nbsp;&nbsp;<a class="remove ml10" href="javascript:void(0)" title="删除">',
@@ -119,17 +185,45 @@
     }
 
     window.operateEvents = {
-        'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
-        'click .edit': function (e, value, row, index) {
-            alert('You click edit icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
+//        'click .like': function (e, value, row, index) {
+//            alert('You click like icon, row: ' + JSON.stringify(row));
+//            console.log(value, row, index);
+//        },
+//        'click .edit': function (e, value, row, index) {
+//            alert('You click edit icon, row: ' + JSON.stringify(row));
+//            console.log(value, row, index);
+//        },
         'click .remove': function (e, value, row, index) {
-            alert('You click remove icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
+
+            var gid = row.gid;
+            bootbox.confirm({
+                size: 'small',
+                message: "你确定要删除所选文章吗？",
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '/admin/article/dele',
+                            data: {gid: gid},
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $("#table").bootstrapTable('refresh');
+                                toastr.options = {
+                                    "timeOut": "1500",
+                                    "closeButton": true,
+                                    "positionClass": "toast-bottom-right"
+                                };
+                                toastr.success('成功删除' + data + '篇文章！');
+                                console.log(data);
+                            }
+                        });
+
+                    }
+
+                }
+            });
+
+
         }
     };
 </script>

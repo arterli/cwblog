@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/resource/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/resource/css/dropdowns-enhancement.css"/>
     <link rel="stylesheet" href="/resource/css/bootstrap-table.min.css"/>
+    <link rel="stylesheet" href="/resource/css/toastr.min.css"/>
     <link rel="stylesheet" href="/resource/css/admin.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -95,6 +96,8 @@
 <script src="/resource/js/dropdowns-enhancement.min.js"></script>
 <script src="/resource/js/bootstrap-table.js"></script>
 <script src="/resource/js/bootstrap-table-zh-CN.js"></script>
+<script src="/resource/js/bootbox.min.js"></script>
+<script src="/resource/js/toastr.min.js"></script>
 <script>
     $(function(){
         $('#load-data>li').click(function () {
@@ -128,8 +131,33 @@
             console.log(value, row, index);
         },
         'click .remove': function (e, value, row, index) {
-            alert('You click remove icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
+            var gid = row.gid;
+            bootbox.confirm({
+                size: 'small',
+                message: "你确定要删除所选文章吗？",
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '/admin/article/dele',
+                            data: {gid: gid},
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $("#table").bootstrapTable('refresh');
+                                toastr.options = {
+                                    "timeOut": "1500",
+                                    "closeButton": true,
+                                    "positionClass": "toast-bottom-right"
+                                };
+                                toastr.success('成功删除' + data + '篇文章！');
+                                console.log(data);
+                            }
+                        });
+
+                    }
+
+                }
+            });
         }
     };
 </script>

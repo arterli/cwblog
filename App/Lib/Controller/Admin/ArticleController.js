@@ -28,6 +28,33 @@ module.exports = Controller("Admin/BaseController", function () {
             this.display();
 
         },
+        deleAction:function(){
+           //删除文章
+            var self=this;
+            if(this.isAjax('get')){
+                var gid=this.get('gid');
+                gid=gid.split(",")
+                if(gid.length>1){
+                   var gids=[];
+                    gid.forEach(function(item){
+                        gids.push(item);
+                    });
+                    var where={gid:["IN",gids]}
+                }else{
+                    where={gid:gid[0]}
+                }
+                if(this.get('gid')){
+
+                    return D('article').where(where).delete().then(function(row){
+                        self.json(row);
+                    })
+                }else{
+                    this.end();
+                }
+
+
+            }
+        },
         dataAction: function () {
             var self = this;
             var page = this.get("offset") > 1 ? (this.get("offset") / 20) + 1 : 1;
@@ -102,7 +129,7 @@ module.exports = Controller("Admin/BaseController", function () {
 
             });
         },
-        editAction: function () {
+        addAction: function () {
             if (this.isPost()) {
                 var param = this.post();
                 param.date = new Date().valueOf();
@@ -155,6 +182,63 @@ module.exports = Controller("Admin/BaseController", function () {
                 this.display();
             }
 
+        },
+        editAction:function(){
+            if (this.isPost()) {
+                var param = this.post();
+                param.date = new Date().valueOf();
+                //console.log(param);
+                var self = this;
+
+                return D('article').add(param).then(function (id) {
+                    if (self.post('tags')) {
+                        //var ids=id;
+                        var tags = self.post('tags').split(",");
+                        tags.forEach(function (item) {
+                            var tag = {tagname: item, gid: id}
+                            var where = {tagname: item}
+                            return D('tag').thenAdd(tag, where, true).then(function (data) {
+                                //console.log(data)
+                                if (data.type == "exist") {
+                                    D('tag').where({tid: data.id}).getField('gid', true).then(function (gid) {
+                                        //ids=gid.push(data.id);
+                                        var ids = gid + "," + id;
+                                        //console.log(ids)
+                                        return D('tag').where({tid: data.id}).update({gid: ids}).then(function (ok) {
+                                            //console.log(ok)
+                                            return self.redirect("/admin/article");
+                                        })
+                                    })
+                                } else {
+                                    return self.redirect("/admin/article");
+                                }
+
+                            })
+                        })
+
+
+                    }else{
+                        return self.redirect("/admin/article");
+                    }
+
+                }).catch(function (err) {
+                    return self.error(err);
+                });
+            } else {
+                 var self=this;
+                var cate = D('category').select().then(function (data) {
+                    return get_children(data, 0);
+                });
+                var data= D('article').where({gid:self.get('gid')}).find().then(function(data){
+                    console.log(data);
+                })
+
+                this.assign({
+                    category: cate,
+                    active: "article_deit" //当前高亮
+                });
+                this.display();
+            }
         }
     };
 });

@@ -1,6 +1,6 @@
 <div class="sidebar">
     <ul class="nav nav-sidebar">
-        <li <%if(active=="article_deit"){%> class="active" <%}%> ><a href="/admin/article/edit"><span class="glyphicon glyphicon-pencil"></span> 写文章</a></li>
+        <li <%if(active=="article_deit"){%> class="active" <%}%> ><a href="/admin/article/add"><span class="glyphicon glyphicon-pencil"></span> 写文章</a></li>
         <li <%if(active=="articleindex"){%> class="active" <%}%>><a href="/admin/article"><span aria-hidden="true" class="glyphicon glyphicon-list-alt"></span> 文章管理</a></li>
         <li <%if(active=="draft"){%> class="active" <%}%>><a href="/admin/article/draft"><span aria-hidden="true" class="glyphicon glyphicon-inbox"></span> 草稿箱 <span class="badge"><%=count%></span> </a></li>
         <li <%if(active=="tag"){%> class="active" <%}%>><a href="/admin/tag"><span aria-hidden="true" class="glyphicon glyphicon-tags"></span> 标签管理</a></li>
