@@ -97,7 +97,6 @@
         </div>
     </div>
 </div>
-
 <% include ../admin/include/footer.html %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/resource/js/jquery.min.js"></script>
@@ -110,8 +109,14 @@
 <script src="/resource/js/toastr.min.js"></script>
 <script>
     $(function () {
-
-
+        toastr.options = {
+            "timeOut": "1500",
+            "closeButton": true,
+            "positionClass": "toast-bottom-right"
+        };
+        if(<%=success%>==1){
+            toastr.success('保存成功！');
+        }
         $('#load-data>li').click(function () {
             var cid = $(this).find("input").val();
             $("#table").bootstrapTable('refresh', {
@@ -150,11 +155,6 @@
                                 dataType: "json",
                                 success: function (data) {
                                     $("#table").bootstrapTable('refresh');
-                                    toastr.options = {
-                                        "timeOut": "1500",
-                                        "closeButton": true,
-                                        "positionClass": "toast-bottom-right"
-                                    };
                                     toastr.success('成功删除' + data + '篇文章！');
                                     console.log(data);
                                 }
@@ -208,11 +208,7 @@
                             dataType: "json",
                             success: function (data) {
                                 $("#table").bootstrapTable('refresh');
-                                toastr.options = {
-                                    "timeOut": "1500",
-                                    "closeButton": true,
-                                    "positionClass": "toast-bottom-right"
-                                };
+
                                 toastr.success('成功删除' + data + '篇文章！');
                                 console.log(data);
                             }

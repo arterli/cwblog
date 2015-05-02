@@ -1,6 +1,7 @@
 App/Runtime/Data/app.pid
 App/Runtime/Cache
 node_modules/
+.idea/
 output/
 output.tar.gz
 sftp-config.json

@@ -42,25 +42,25 @@
                     <div class="input-group">
                         <div class="input-group-btn ">
                             <a data-label-placement="" data-placeholder="Please select"
-                                    class="btn btn-default">选择分类
+                                    class="btn btn-default"><%if(data.cateid==0){%> 未分类<%}else{%><%=data.catename%><%}%>
                             </a>
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
                                     class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <input type="radio" checked="" value="0" name="cateid" id="cateid2_2_1">
+                                    <input type="radio"  value="0" name="cateid" id="cateid2_2_1" <%if(data.cateid==0){%> checked=""<%}%>>
                                     <label for="cateid2_2_1"><i class="icon-edit"></i> 选择分类</label>
                                 </li>
                                 <% category.forEach(function(item){ %>
                                 <li>
-                                    <input type="radio" value="<%=item.cid%>" name="cateid" id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>">
+                                    <input type="radio" value="<%=item.cid%>" name="cateid" id="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>" <%if(item.cid==data.cateid){%> checked=""<%}%>  >
                                     <label for="cid<%=item.cid%>_<%=item.pid%>_<%=item.deep%>"><i class="icon-remove"></i>|-<%=new Array(item.deep*2).join("-")%> <%=item.catename%></label>
                                 </li>
                                 <% }) %>
 
                             </ul>
                         </div>
-                        <input type="text" class="form-control" id="title" placeholder="输入标题 ..." required="required" name="title">
+                        <input type="text" class="form-control" id="title" placeholder="输入标题 ..." required="required" name="title" value="<%=data.title%>">
 
                     </div>
                 </div>
@@ -68,14 +68,18 @@
                 <div class="form-group row">
                     <div class="col-md-8">
                         <label class="control-label" for="dtp_input1">标签</label>
-                        <textarea id="tags" name="tags" placeholder="输入标签 ..."></textarea>
+                        <textarea id="tags" name="tags" placeholder="输入标签 ...">
+                            <%tags.forEach(function(item){%>
+                            <%=item.tagname%>,
+                            <%})%>
+                        </textarea>
                     </div>
                     <div class="col-md-4">
                         <label class="control-label" for="dtp_input1">发布时间</label>
 
                         <div class="input-group date form_datetime" data-date="2012-06-15 14:45"
                              data-date-format="yyyy-mm-dd hh:ii" data-link-field="dtp_input1">
-                            <input class="form-control" id="time" size="16" type="text" value="" readonly>
+                            <input class="form-control" id="time" size="16" type="text" value="<%=data.date%>" readonly>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
@@ -84,7 +88,9 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">内容</label>
-                    <script id="content" name="content" type="text/plain" style="height:500px;"></script>
+                    <script id="content" name="content" type="text/plain" style="height:500px;">
+                                  <%-data.content%>
+                    </script>
                 </div>
                <div class="panel panel-default">
                   <div class="panel-heading">
@@ -98,16 +104,18 @@
                 <div class="collapse panel-collapse panel-body" id="collapseExample">
                 <div class="form-group">
                     <label class="control-label">简介</label>
-                    <script id="excerpt" name="excerpt" type="text/plain"></script>
+                    <script id="excerpt" name="excerpt" type="text/plain">
+                        <%-data.excerpt%>
+                    </script>
                 </div>
                 <div class="form-group row">
 
                     <div class="col-md-4">
                         <label class="control-label" for="alias">别名</label>
-                        <input type="text" class="form-control" id="alias" placeholder="输入别名 ..." name="alias">
+                        <input type="text" class="form-control" id="alias" placeholder="输入别名 ..." name="alias" value="<%=data.alias%>">
                     </div>
                     <div class="col-md-4"><label class="control-label" for="password">访问密码</label>
-                        <input type="text" class="form-control" id="password" placeholder="输入访问密码 ..." name="password">
+                        <input type="text" class="form-control" id="password" placeholder="输入访问密码 ..." name="password" value="<%=data.password%>">
                     </div>
                     <div class="col-md-4"><label class="control-label">模板</label>
 
@@ -139,20 +147,21 @@
                 <div class="form-group row">
                     <div class="col-md-2">
                         <label class="control-label" for="top">首页置顶</label>
-                        <input id="top" name="top" type="checkbox" data-off-text="否" data-on-text="是"></div>
+                        <input id="top" name="top" type="checkbox" data-off-text="否" data-on-text="是" <%if(data.top=="on"){%> checked<%}%>></div>
                     <div class="col-md-2">
                         <label class="control-label" for="sortop">分类置顶</label>
-                        <input id="sortop" name="sortop" type="checkbox" data-off-text="否" data-on-text="是">
+                        <input id="sortop" name="sortop" type="checkbox" data-off-text="否" data-on-text="是" <%if(data.sortop=="on"){%> checked<%}%>>
                     </div>
                     <div class="col-md-2">
                         <label class="control-label" for="allow_remark">允许评论</label>
-                        <input id="allow_remark" name="allow_remark" type="checkbox"  data-off-text="否" data-on-text="是" checked></div>
+                        <input id="allow_remark" name="allow_remark" type="checkbox"  data-off-text="否" data-on-text="是" <%if(data.allow_remark=="on"){%> checked<%}%> ></div>
                 </div>
                 </div>
                     </div>
                 <hr/>
                 <div class="">
-                <input type="hidden" name="author" value="<%=user.uid%>" >
+                <input type="hidden" name="author" value="<%=data.author%>" >
+                    <input type="hidden" name="gid" value="<%=data.gid%>" >
                 <button type="submit" class="btn btn-primary">发布文章</button>
                     <div class="checkbox btn">
                         <label >
@@ -166,6 +175,7 @@
         </div>
     </div>
 </div>
+
 <% include ../admin/include/footer.html %>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/resource/js/jquery.min.js"></script>
@@ -185,6 +195,7 @@
 <script>
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+
     var ue = UE.getEditor('content');
     UE.getEditor('excerpt', {
         //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
@@ -277,18 +288,6 @@
         $("[name='top']").bootstrapSwitch();
         $("[name='sortop']").bootstrapSwitch();
         $("[name='allow_remark']").bootstrapSwitch();
-        var date= new Date();
-        var y=date.getFullYear();
-        var M=date.getMonth()+1;
-            M=M<10?"0"+M:M;
-        var d=date.getDate();
-            d=d<10?"0"+d:d;
-        var h=date.getHours();
-        h=h<10?"0"+h:h;
-        var m=date.getMinutes();
-        m=m<10?"0"+m:m;
-        var time= y+"-"+M+"-"+d+" "+h+":"+m;
-        $("#time").val(time);
     });
 </script>
 </body>

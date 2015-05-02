@@ -6,10 +6,12 @@ module.exports = Controller("Admin/BaseController", function () {
     return {
         indexAction: function () {
             //文章管理
+            var self=this;
             var cate = D('category').select().then(function (data) {
                 return get_children(data, 0);
             });
             this.assign({
+                success:self.get('success')==1?"1":"0",
                 category: cate,
                 active: 'articleindex'//当前高亮
             });
@@ -28,27 +30,60 @@ module.exports = Controller("Admin/BaseController", function () {
             this.display();
 
         },
-        deleAction:function(){
-           //删除文章
-            var self=this;
-            if(this.isAjax('get')){
-                var gid=this.get('gid');
-                gid=gid.split(",")
-                if(gid.length>1){
-                   var gids=[];
-                    gid.forEach(function(item){
+        deleAction: function () {
+            //删除文章
+            var self = this;
+            if (this.isAjax('get')) {
+                var gid = this.get('gid');
+                gid = gid.split(",")
+                if (gid.length > 1) {
+                    var gids = [];
+                    gid.forEach(function (item) {
                         gids.push(item);
-                    });
-                    var where={gid:["IN",gids]}
-                }else{
-                    where={gid:gid[0]}
-                }
-                if(this.get('gid')){
 
-                    return D('article').where(where).delete().then(function(row){
+                    });
+                    var where = {gid: ["IN", gids]}
+                     var gidd=gids;
+                } else {
+                    where = {gid: gid[0]}
+                    gidd=gid;
+                }
+                if (this.get('gid')) {
+
+                    return D('article').where(where).delete().then(function (row) {
+                            gidd.forEach(function(gtm){
+
+                                D('tag').where({gid: ['like','%{'+gtm+'}%']}).select().then(function (data) {
+                                    console.log(data);
+                                    var gid ='{'+gtm+'';
+                                    console.log(gid+"dddddd");
+                                    data.forEach(function (item) {
+                                        console.log(item.gid)
+                                        var index = item.gid.indexOf(gid)
+                                        var isdh = item.gid.slice(index - 1, index);
+                                        if (isdh == ",") {
+                                            console.log("有，")
+                                            var ngid = item.gid.replace("," + gid, "")
+                                            console.log(ngid)
+                                        } else {
+                                            console.log("没有，")
+                                            ngid = item.gid.replace(gid, "")
+                                            console.log(ngid)
+                                        }
+                                        console.log(item);
+                                        D('tag').where({tid: item.tid}).update({gid: ngid}).then(function (d) {
+                                            console.log(d);
+                                        });
+                                    })
+
+                                });
+                            })
+
+
+
                         self.json(row);
                     })
-                }else{
+                } else {
                     this.end();
                 }
 
@@ -61,12 +96,12 @@ module.exports = Controller("Admin/BaseController", function () {
             // console.log(page)
             var limit = this.get("limit");
             var search = this.get('search').length > 0 ? this.get('search') : "";
-            var where={title: ['like', '%' + search + '%']}
-            if(this.get("cid")){
-                where.cateid=this.get("cid");
+            var where = {title: ['like', '%' + search + '%']}
+            if (this.get("cid")) {
+                where.cateid = this.get("cid");
             }
-            if(this.get("hide")){
-                where.hide=this.get("hide");
+            if (this.get("hide")) {
+                where.hide = this.get("hide");
             }
             //console.log(where);
             return D('article').field('gid,title,username,date,catename')
@@ -87,22 +122,12 @@ module.exports = Controller("Admin/BaseController", function () {
 
                     var rows = [];
                     da.data.forEach(function (item) {
-                        var date = new Date(item.date);
-                        var y = date.getFullYear();
-                        var M = date.getMonth() + 1;
-                        M = M < 10 ? "0" + M : M;
-                        var d = date.getDate();
-                        d = d < 10 ? "0" + d : d;
-                        var h = date.getHours();
-                        h = h < 10 ? "0" + h : h;
-                        var m = date.getMinutes();
-                        m = m < 10 ? "0" + m : m;
-                        var time = y + "-" + M + "-" + d + " " + h + ":" + m;
+                        var time = times(item.date);
                         var catename = item.catename ? item.catename : "未分类";
                         rows.push({
                             date: time,
                             gid: item.gid,
-                            title: '<a class="view ml10" href="'+item.gid+'" title="访问"><i class="glyphicon glyphicon-link"></i></a> '+item.title,
+                            title: '<a class="view ml10" href="' + item.gid + '" title="访问"><i class="glyphicon glyphicon-link"></i></a> ' + item.title,
                             type: catename,
                             username: item.username
                         });
@@ -141,32 +166,27 @@ module.exports = Controller("Admin/BaseController", function () {
                         //var ids=id;
                         var tags = self.post('tags').split(",");
                         tags.forEach(function (item) {
-                            var tag = {tagname: item, gid: id}
+                            var tag = {tagname: item, gid: '{' + id + '}'}
                             var where = {tagname: item}
                             return D('tag').thenAdd(tag, where, true).then(function (data) {
                                 //console.log(data)
                                 if (data.type == "exist") {
                                     D('tag').where({tid: data.id}).getField('gid', true).then(function (gid) {
                                         //ids=gid.push(data.id);
-                                        var ids = gid + "," + id;
+                                        var ids = gid + "," + '{' + id + '}';
                                         //console.log(ids)
                                         return D('tag').where({tid: data.id}).update({gid: ids}).then(function (ok) {
                                             //console.log(ok)
-                                            return self.redirect("/admin/article");
                                         })
                                     })
-                                } else {
-                                    return self.redirect("/admin/article");
                                 }
 
                             })
                         })
 
 
-                    }else{
-                        return self.redirect("/admin/article");
                     }
-
+                    return self.redirect("/admin/article/index/success/1");
                 }).catch(function (err) {
                     return self.error(err);
                 });
@@ -183,61 +203,152 @@ module.exports = Controller("Admin/BaseController", function () {
             }
 
         },
-        editAction:function(){
+        editAction: function () {
             if (this.isPost()) {
                 var param = this.post();
-                param.date = new Date().valueOf();
-                //console.log(param);
+                //param.date = new Date().valueOf();
+                console.log(param);
                 var self = this;
+                return D('article').where({gid: param.gid}).update(param).then(function (id) {
+                    D('tag').where({gid: ['like', '%{' + param.gid + '}%']}).select().then(function (tags) {
+                        function unique(arr) {//数组去重
+                            var ret = []
+                            var hash = {}
 
-                return D('article').add(param).then(function (id) {
-                    if (self.post('tags')) {
-                        //var ids=id;
-                        var tags = self.post('tags').split(",");
-                        tags.forEach(function (item) {
-                            var tag = {tagname: item, gid: id}
-                            var where = {tagname: item}
-                            return D('tag').thenAdd(tag, where, true).then(function (data) {
-                                //console.log(data)
-                                if (data.type == "exist") {
-                                    D('tag').where({tid: data.id}).getField('gid', true).then(function (gid) {
-                                        //ids=gid.push(data.id);
-                                        var ids = gid + "," + id;
-                                        //console.log(ids)
-                                        return D('tag').where({tid: data.id}).update({gid: ids}).then(function (ok) {
-                                            //console.log(ok)
-                                            return self.redirect("/admin/article");
-                                        })
-                                    })
-                                } else {
-                                    return self.redirect("/admin/article");
+                            for (var i = 0; i < arr.length; i++) {
+                                var item = arr[i]
+                                var key = typeof(item) + item
+                                if (hash[key] !== 1) {
+                                    ret.push(item)
+                                    hash[key] = 1
                                 }
+                            }
 
-                            })
+                            return ret
+                        }
+
+                        function unarr(arr1, arr2) {//删除重复
+                            if (arr1.length > arr2.length) {
+                                var len = arr1.length;
+                                var larr = arr1;
+                                var sarr = arr2;
+                            } else {
+                                len = arr2.length;
+                                larr = arr2;
+                                sarr = arr1;
+                            }
+                            var res = []
+                            for (var i = 0; i < len; i++) {
+                                if (!in_array(larr[i], sarr)) {
+                                    res.push(larr[i]);
+                                }
+                            }
+                            return res;
+                        }
+
+                        var n_tags = param.tags.split(",")
+                        console.log("n_tags:" + n_tags)
+                        var y_tags = []
+                        tags.forEach(function (item) {
+                            y_tags.push(item.tagname);
                         })
+                        console.log("y_tags:" + y_tags)
+                        var c_tags = y_tags.concat(n_tags)//合并数组
+                        console.log("c_tags:" + c_tags)
+                        var un_tags = unique(c_tags);//去重
+                        console.log("un_tags:" + un_tags)
+                        var ntags = unarr(un_tags, y_tags);//新增家的
+                        console.log(ntags.length);
+                        var ytags = unarr(un_tags, n_tags);//去除的
+                        console.log(ytags.length);
+                        if (ntags.length > 0) {//如果有新加的tag，直接添加
+                            var tags = ntags;
+                            console.log(tags);
+                            tags.forEach(function (item) {
+                                var tag = {tagname: item, gid: '{' + param.gid + '}'}
+                                var where = {tagname: item}
+                                return D('tag').thenAdd(tag, where, true).then(function (data) {
+                                    //console.log(data)
+                                    if (data.type == "exist") {
+                                        D('tag').where({tid: data.id}).getField('gid', true).then(function (gid) {
+                                            //ids=gid.push(data.id);
+                                            var ids = gid + "," + '{' + param.gid + '}';
 
+                                            console.log(ids)
+                                            return D('tag').where({tid: data.id}).update({gid: ids}).then(function (ok) {
+                                                return ok;
+                                                //return self.redirect("/admin/article");
+                                            })
+                                        })
+                                    }
+                                    return data;
+                                })
+                            })
+                        }
 
-                    }else{
-                        return self.redirect("/admin/article");
-                    }
+                        if (ytags.length) {
+                            console.log(ytags);
+                            D('tag').where({tagname: ['like', ytags]}).select().then(function (data) {
+                                console.log(data);
+                                var gid = '{' + param.gid + '}'
+                                data.forEach(function (item) {
+                                    console.log(item.gid)
+                                    var index = item.gid.indexOf(gid)
+                                    var isdh = item.gid.slice(index - 1, index);
+                                    if (isdh == ",") {
+                                        console.log("有，")
+                                        var ngid = item.gid.replace("," + gid, "")
+                                        console.log(ngid)
+                                    } else {
+                                        console.log("没有，")
+                                        ngid = item.gid.replace(gid, "")
+                                        console.log(ngid)
+                                    }
+                                    console.log(item);
+                                    D('tag').where({tid: item.tid}).update({gid: ngid}).then(function (d) {
+                                        console.log(d);
+                                    });
+                                })
 
-                }).catch(function (err) {
-                    return self.error(err);
+                            });
+
+                        }
+                        console.log("555555555555555555555555555555555555555");
+                    })
+                    console.log("666666666666666666666666666666666666")
+                    return self.redirect("/admin/article/index/success/1");
                 });
+
             } else {
-                 var self=this;
+
+                var dd = '{2123}';
+                var ss = dd.match(/\d/g).join("")
+                console.log(ss);
+                var self = this;
                 var cate = D('category').select().then(function (data) {
                     return get_children(data, 0);
                 });
-                var data= D('article').where({gid:self.get('gid')}).find().then(function(data){
-                    console.log(data);
-                })
+                var data = D('article').alias('a')
+                    .join({
+                        table: 'category',
+                        jion: 'left',
+                        as: 'c',
+                        on: ['cateid', 'cid']
+                    }).where({gid: self.get('gid')}).find().then(function (data) {
+                        data.date = times(data.date)
+                        self.assign('data', data);
+                        D('tag').where({gid: ['like', '%{' + data.gid + '}%']}).select().then(function (tags) {
+                            self.assign('tags', tags);
+                            console.log(tags)
+                            console.log(data)
+                            self.assign({
+                                category: cate,
+                                active: "article_deit" //当前高亮
+                            });
+                            self.display();
+                        })
+                    })
 
-                this.assign({
-                    category: cate,
-                    active: "article_deit" //当前高亮
-                });
-                this.display();
             }
         }
     };
