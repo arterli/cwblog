@@ -1,13 +1,17 @@
-body{font-size: 14px;}
+body {
+    font-size: 14px;
+}
+p{font-size: 14px}
 #particles {
     background-color: #1abc9c;
     /*background-image: url(../img/particles.jpg);*/
     /*background-repeat: no-repeat;*/
     /*background-position: center bottom;*/
     width: 100%;
-    height: 510px;
+    height: 450px;
     overflow: hidden;
 }
+
 #blog {
     background-color: #1abc9c;
     /*background-image: url(../img/particles.jpg);*/
@@ -17,6 +21,7 @@ body{font-size: 14px;}
     height: 410px;
     overflow: hidden;
 }
+
 #blogcat {
     background-color: #1abc9c;
     /*background-image: url(../img/particles.jpg);*/
@@ -26,6 +31,7 @@ body{font-size: 14px;}
     height: 210px;
     overflow: hidden;
 }
+
 .navbar-wrapper {
     left: 0;
     position: absolute;
@@ -33,16 +39,21 @@ body{font-size: 14px;}
     top: 0;
     z-index: 20;
 }
+
 .intro {
     position: absolute;
     left: 0;
-    top: 100px;
+    top: 60px;
     padding: 0 20px;
     width: 100%;
     text-align: center;
 }
-.slide{box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);}
-.blog-header{
+
+.slide {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.blog-header {
     font-family: "Microsoft YaHei";
     position: absolute;
     left: 0;
@@ -51,21 +62,25 @@ body{font-size: 14px;}
     width: 100%;
     color: #fff;
 }
-.blog-header h1{
+
+.blog-header h1 {
     font-size: 40px;
     margin-top: 0px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-.blog-header p{
+
+.blog-header p {
     font-size: 18px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
+
 .intro h1 {
     text-transform: uppercase;
     font-size: 85px;
     font-weight: 700;
     letter-spacing: 0.015em;
 }
+
 .intro h1::after {
     content: '';
     width: 80px;
@@ -75,12 +90,14 @@ body{font-size: 14px;}
     margin: 30px auto;
     line-height: 1.1;
 }
+
 .intro p {
     margin: 0 0 30px 0;
     font-size: 20px;
     color: #fff;
     text-Shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
+
 @media only screen and (max-width: 1000px) {
     .intro h1 {
         font-size: 70px;
@@ -88,10 +105,11 @@ body{font-size: 14px;}
 }
 
 @media only screen and (max-width: 800px) {
-    .intro  h1 {
+    .intro h1 {
         font-size: 48px;
     }
-    .intro  h1::after {
+
+    .intro h1::after {
         height: 8px;
     }
 }
@@ -100,16 +118,20 @@ body{font-size: 14px;}
     .intro {
         padding: 0 10px;
     }
-    .intro  h1 {
+
+    .intro h1 {
         font-size: 30px;
     }
-    .intro  h1::after {
+
+    .intro h1::after {
         height: 6px;
     }
-    .intro  p {
+
+    .intro p {
         font-size: 18px;
     }
-    .intro  .btn {
+
+    .intro .btn {
         font-size: 16px;
     }
 }
@@ -118,35 +140,203 @@ body{font-size: 14px;}
     .intro h1 {
         font-size: 28px;
     }
-    .intro  h1::after {
+
+    .intro h1::after {
         height: 4px;
     }
 }
-.slidebox{position: absolute;top:80px;left: 0; width: 100%}
-.slidebox .carousel-indicators{bottom: -40px;}
+
+.slidebox {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%
+}
+
+.slidebox .carousel-indicators {
+    bottom: -40px;
+}
+
+/*home*/
+.homelist {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.homelist .page-header {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font: 24px/26px "Microsoft Yahei";
+}
+
+.homelist .listbody {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 5px
+}
+
+.homelist .listbody li {
+    height: 25px;
+    list-style: outside none none;
+}
+
+.homelist .listbody li a {
+    float: left;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 200px;
+}
+
+.homelist .listbody li a:hover {
+    color: #16a085;
+}
+/*git*/
+.pro_name a{color: #4183c4;}
+.osc_git_title{background-color: #1abc9c !important;}
+.osc_git_box{
+    background-color: #f3f4f5 !important;
+    border: 1px solid #fff !important;
+    border-radius: 6px !important;}
+.osc_git_box{border-color: #ddd;}
+.osc_git_box .osc_git_title h3 a {
+    color: #fff !important;
+}
+.osc_git_box .osc_git_title .right_span .git-icon-star {
+
+    background-color: #34495e !important;
+    padding: 3px!important;
+}
+.osc_git_box .osc_git_title .right_span .git-icon-fork {
+    background-color: #34495e !important;
+    padding: 3px!important;
+}
+.osc_git_box .osc_git_title .right_span .git-icon-star:hover {
+
+    background-color: #9aa4af !important;
+}
+.osc_git_box .osc_git_title .right_span .git-icon-fork:hover {
+    background-color: #9aa4af !important;
+}
+.osc_git_box .split {
+    background-color: #ddd !important;
+    height: 1px !important;
+}
+.osc_git_box .osc_git_issues,.osc_git_box .osc_git_commits,.osc_git_box .osc_git_footer {
+
+    padding-bottom: 5px !important;
+    padding-top: 7px !important;
+
+}
+
+.osc_git_info{color: #666;}
+.osc_git_commits b {
+    display: block !important;
+    padding: 3px 3px 0 5px !important;
+}
+.osc_git_footer .right_span a{
+    background-color: #34495e !important;
+    color: #fff !important;
+    padding: 2px !important;
+}
+.osc_git_footer .right_span a:hover{
+    background-color: #16a085 !important;
+    color: #fff !important;
+    padding: 2px !important;
+}
+.osc_git_box .osc_git_commits {
+    padding-right: 6px !important;
+}
+.osc_git_box .osc_git_commits ul {
+    padding: 6px !important;
+    background-color: #e1e4e7 !important;
+    border-radius: 3px !important;
+    border: 1px solid #fff !important;
+}
+.osc_git_box .osc_git_commits  li{
+    border-bottom: 1px solid #eff0f2 !important;
+}
+.osc_git_main a{color: #16a085 !important;}
+.osc_git_copyright a{
+    color: #9aa4af !important;
+}
 /*博客*/
-.blog-main article{
+.blog-main article {
     border-bottom: 1px dotted #dcdcdc;
     margin-bottom: 26px;
     padding-bottom: 30px;
 }
 
-.blog-main .thumbnail{position: relative;}
-.blog-main .media{
+.blog-main .thumbnail {
+    position: relative;
+}
+
+.blog-main .media {
     margin-bottom: 10px;
 }
-.blog-main .media-body h4{
+
+.blog-main .media-body h4 {
     font-family: "Microsoft YaHei";
     font-size: 18px;
     font-weight: normal;
-    line-height: 26px;
+    line-height: 24px;
 }
-.blog-main .media-body small{
+
+.blog-main .media-body small {
     color: #999;
 }
-.blog-main article footer{background: #f7f7f9 ; margin-top: -15px; padding: 15px ;border-radius: 6px;}
-.blog-main .text_c{margin-right: 15px ; color: #999; font-size: 12px;}
-.blog-main .more{font-size: 12px}
+
+.blog-main article footer {
+    background: #f7f7f9;
+    margin-top: -15px;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.blog-main .text_c {
+    margin-right: 15px;
+    color: #999;
+    font-size: 12px;
+}
+
+.blog-main .more {
+    font-size: 12px
+}
+.sidelist .todo-search{
+    padding: 6px 25px 6px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.sidelist .todo-search::before {
+    content: "";
+}
+.sidelist li{
+    font-size: 12px;
+    padding: 6px 42px 6px 25px;
+    background: none repeat scroll 0 0 / 20px 20px #f3f4f5;
+}
+
+.sidelist li:last-child {
+    border-radius: 0 0 6px 6px;
+    padding-bottom: 7px;
+}
+.sidelist .todo-icon {
+    float: left;
+    font-size: 24px;
+    padding: 6px 22px 0 0;
+}
+.sidelist li h4{
+    font-size: 14px;
+    font-weight: normal;
+}
+.sidelist ul{
+    background-color: #e1e4e7;
+}
+.sidelist .todo-name{
+    color: #34495e;
+}
 /*底部*/
 .cw-social {
     background-color: #f5f5f5;
@@ -156,93 +346,150 @@ body{font-size: 14px;}
     text-align: center;
     margin-bottom: 20px;
 }
+
 .cw-social-buttons {
     list-style: outside none none;
     margin-bottom: 0;
     margin-left: 0;
     padding-left: 0;
 }
+
 .cw-social-buttons li {
     color: #555;
     display: inline-block;
     line-height: 1;
 }
+
 .cw-social-buttons li .fa {
     font-size: 18px;
     margin-right: 3px;
 }
+
 .cw-social-buttons li .fa-weibo {
     font-size: 20px;
 }
+
 .cw-social-buttons li a {
     color: #555;
 }
+
 .cw-social-buttons li.social-qq:hover {
     color: #428bca;
 }
+
 .cw-social-buttons li.social-weibo a:hover {
     color: #d9534f;
 }
+
 .cw-social-buttons > li + li::before {
     color: #ccc;
     content: "|";
     padding: 0 10px;
 }
+
 .main-footer {
-    background: none repeat scroll 0 0 #202020;
+    margin-top: 20px;
+    background: none repeat scroll 0 0 #ECEFF1;
     color: #959595;
-    padding: 35px 0 0;
+    padding: 25px 0 0;
+
 }
+
+.main-footer a {
+    font-weight: 400;
+}
+
+.widget .title::after {
+    background: none repeat scroll 0 0 #1abc9c;
+    bottom: -1px;
+    content: "";
+    height: 1px;
+    left: 0;
+    position: absolute;
+    width: 90px;
+}
+
 .main-footer .widget .title {
-    border-bottom: 1px solid #303030;
+    font-size: 1.2em;
+    border-bottom: 1px solid #bac1c8;
+    color: #9aa4af;
+    margin-bottom: 21px;
+    margin-top: 0;
+    padding-bottom: 7px;
+    position: relative;
+    font-family: "Microsoft Yahei";
+    font-weight: 400;
+}
+
+.widget .tag-cloud a:hover {
+    background: none repeat scroll 0 0 #1abc9c;
+    border: 1px solid #1abc9c;
     color: #ffffff;
+    text-decoration: none;
 }
-.main-footer .widget .tag-cloud a {
-    border: 1px solid #303030;
-}
-.main-footer .widget .tag-cloud a:hover {
-    border: 1px solid #e67e22;
-}
+
 .main-footer .widget .friend-links a {
     border: medium none;
 }
+
 .main-footer .widget .friend-links a:hover {
     border: medium none;
 }
+
 .main-footer .widget .friend-links hr {
-    border-top: 1px dashed #303030;
+    border-top: 1px dashed #bac1c8;
     margin: 1em 0;
 }
+
 .main-footer .widget .recent-post .recent-single-post {
-    border-bottom: 1px dashed #303030;
+    border-bottom: 1px dashed #bac1c8;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
+
+.main-footer .widget .recent-post .recent-single-post:last-child {
+    border-bottom: none;
+}
+
 .main-footer .widget .recent-post .recent-single-post .post-title {
     color: #959595;
 }
+
 .main-footer .widget .recent-post .recent-single-post .post-title:hover {
-    color: #e67e22;
+    color: #1abc9c;
 }
+
 .main-footer .widget .recent-post .recent-single-post .date {
-    color: #505050;
+    color: #bac1c8;
+    font-size: 12px;
 }
+
 .copyright {
-    background: none repeat scroll 0 0 #111;
-    border-top: 1px solid #303030;
-    color: #555555;
+    background: none repeat scroll 0 0 #1abc9c;
+    color: #CFF3EC;
     font-size: 13px;
-    padding-bottom: 28px;
-    padding-top: 28px;
+    padding-bottom: 25px;
+    padding-top: 25px;
     text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
+
 .copyright span {
     margin: 0 0.5em;
 }
+
 .copyright a {
-    color: #555555;
+    color: #b7f5e9;
+    text-decoration: underline;
 }
+
+.copyright a:hover {
+    text-decoration: none;
+}
+
 .widget .tag-cloud a {
-    border: 1px solid #ebebeb;
-    color: #959595;
+    border: 1px solid #bac1c8;
+    color: #9aa4af;
     display: inline-block;
     line-height: 1.5em;
     margin: 0 7px 7px 0;
