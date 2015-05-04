@@ -8,14 +8,15 @@
     <title>CMSWING</title>
 
     <!-- Bootstrap -->
-    <link href="/resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resource/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/resource/css/flat-ui.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/resource/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="/resource/css/home.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="/resource/js/vendor/html5shiv.js"></script>
+    <script src="/resource/js/vendor/respond.min.js"></script>
     <![endif]-->
     <script src="/resource/js/cufon-yui.js" type="text/javascript"></script>
     <script src="/resource/js/ChunkFive_400.font.js" type="text/javascript"></script>
@@ -435,18 +436,32 @@
                 </footer>
             </article>
             <div>
-                <nav>
-                    <ul class="pagination">
-                        <li class="disabled"><a aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
+                <div class="pagination">
+                    <ul>
+                        <li class="previous"><a class="fui-arrow-left" href="#fakelink"></a></li>
+                        <li class=""><a href="#fakelink">1</a></li>
+                        <li class="active"><a href="#fakelink">2</a></li>
+                        <li><a href="#fakelink">3</a></li>
+                        <li><a href="#fakelink">4</a></li>
+                        <li><a href="#fakelink">5</a></li>
+                        <li><a href="#fakelink">6</a></li>
+                        <li><a href="#fakelink">7</a></li>
+                        <li><a href="#fakelink">8</a></li>
+                        <li><a href="#fakelink">9</a></li>
+                        <li><a href="#fakelink">10</a></li>
+                        <li class="pagination-dropdown dropup">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#fakelink">
+                                <i class="fui-triangle-up"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#fakelink">10&ndash;20</a></li>
+                                <li><a href="#fakelink">20&ndash;30</a></li>
+                                <li><a href="#fakelink">40&ndash;50</a></li>
+                            </ul>
                         </li>
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                        <li class="next"><a class="fui-arrow-right" href="#fakelink"></a></li>
                     </ul>
-                </nav>
+                </div>
             </div>
         </div>
         <div class="col-md-3">
@@ -468,12 +483,14 @@
 <script src="/resource/js/jquery.min.js"></script>
 <script src="/resource/js/jquery.particleground.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/resource/js/bootstrap.min.js"></script>
+<!--<script src="/resource/js/bootstrap.min.js"></script>-->
+<script src="/resource/js/flat-ui.min.js"></script>
+<script src="/resource/js/application.js"></script>
 <script>
     $(document).ready(function () {
         $('#blog').particleground({
-            dotColor: '#FFE6FC',
-            lineColor: '#CB98DB'
+            dotColor: '#53DBC7',
+            lineColor: '#29C7AF'
         });
 
     })

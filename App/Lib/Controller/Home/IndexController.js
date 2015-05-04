@@ -11,6 +11,7 @@ module.exports = Controller("Home/BaseController", function(){
       },
     indexAction: function(){
       //render View/Home/article_edit.html file
+        var aa="dfsdfsd";
       this.action('home/index/home');
     },
       homeAction: function(){

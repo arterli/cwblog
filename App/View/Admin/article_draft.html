@@ -57,6 +57,12 @@
 
                 </ul>
             </div>
+            <div class="btn-group">
+                <button class="btn btn-default" id="check-all" data-method="checkAll">全选</button>
+                <button class="btn btn-default" id="uncheck-all" data-method="uncheckAll">取消</button>
+            </div>
+            <button class="btn btn-default" id="delete">删除</button>
+            <button class="btn btn-default" id="draft">发布文章</button>
             <div style="margin-top: -45px">
             <table id="table"
                        data-toggle="table"
@@ -100,19 +106,105 @@
 <script src="/resource/js/toastr.min.js"></script>
 <script>
     $(function(){
+        toastr.options = {
+            "timeOut": "1500",
+            "closeButton": true,
+            "positionClass": "toast-bottom-right"
+        };
+        if(<%=success%>==1)
+        {
+            toastr.success('保存成功！');
+        }
         $('#load-data>li').click(function () {
             var cid=$(this).find("input").val();
             $("#table").bootstrapTable('refresh', {
                 url: '/admin/article/data/hide/on?cid='+cid
             });
         });
+        $('#check-all').click(function () {
+            $("#table").bootstrapTable("checkAll");
+        });
+        $('#uncheck-all').click(function () {
+            $("#table").bootstrapTable("uncheckAll");
+        });
+        $('#delete').click(function(){
+            var sele=$("#table").bootstrapTable('getSelections');
+            if(sele.length==0){
+                bootbox.alert({
+                    size:'small',
+                    message:"您还没有选择文章！"
+                })
+            }else{
+                var gid=[];
+                sele.forEach(function(item){
+                    gid.push(item.gid);
+                })
+                gid=gid.join(",");
+                bootbox.confirm({
+                    size: 'small',
+                    message: "你确定要删除所选文章吗？",
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/admin/article/dele',
+                                data: {gid: gid},
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    $("#table").bootstrapTable('refresh');
+                                    toastr.success('成功删除' + data + '篇文章！');
+                                    console.log(data);
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+            }
+        });
+        $('#draft').click(function(){
+            var sele=$("#table").bootstrapTable('getSelections');
+            if(sele.length==0){
+                bootbox.alert({
+                    size:'small',   message:"您还没有选择文章！"
+                })
+            }else{
+                var gid=[];
+                sele.forEach(function(item){
+                    gid.push(item.gid);
+                })
+                gid=gid.join(",");
+                bootbox.confirm({
+                    size: 'small',
+                    message: "你确定要发布所选文章吗？",
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/admin/article/todraft',
+                                data: {gid: gid,hide:"off"},
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    $("#table").bootstrapTable('refresh');
+                                    toastr.success('成功发布' + data + '篇文章！');
+                                    console.log(data);
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+            }
+        });
     });
     function operateFormatter(value, row, index) {
         return [
-            '<a class="like" href="javascript:void(0)" title="发布">',
+            '<a class="like" href="javascript:void(0)" title="发布文章">',
             '<i class="glyphicon glyphicon-list-alt"></i>',
             '</a>',
-            '&nbsp;&nbsp;<a class="edit ml10" href="javascript:void(0)" title="编辑">',
+            '&nbsp;&nbsp;<a href="/admin/article/edit/gid/'+row.gid+'" class="edit ml10" href="javascript:void(0)" title="编辑">',
             '<i class="glyphicon glyphicon-edit"></i>',
             '</a>',
             '&nbsp;&nbsp;<a class="remove ml10" href="javascript:void(0)" title="删除">',
@@ -123,13 +215,33 @@
 
     window.operateEvents = {
         'click .like': function (e, value, row, index) {
-            alert('You click like icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
+            var gid = row.gid;
+            bootbox.confirm({
+                size: 'small',
+                message: "你确定要发布所选文章吗？",
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '/admin/article/todraft',
+                            data: {gid: gid, hide: "off"},
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $("#table").bootstrapTable('refresh');
+                                toastr.success('成功发布' + data + '篇文章！');
+                                console.log(data);
+                            }
+                        });
+
+                    }
+
+                }
+            });
         },
-        'click .edit': function (e, value, row, index) {
-            alert('You click edit icon, row: ' + JSON.stringify(row));
-            console.log(value, row, index);
-        },
+//        'click .edit': function (e, value, row, index) {
+//            alert('You click edit icon, row: ' + JSON.stringify(row));
+//            console.log(value, row, index);
+//        },
         'click .remove': function (e, value, row, index) {
             var gid = row.gid;
             bootbox.confirm({
@@ -144,11 +256,6 @@
                             dataType: "json",
                             success: function (data) {
                                 $("#table").bootstrapTable('refresh');
-                                toastr.options = {
-                                    "timeOut": "1500",
-                                    "closeButton": true,
-                                    "positionClass": "toast-bottom-right"
-                                };
                                 toastr.success('成功删除' + data + '篇文章！');
                                 console.log(data);
                             }
@@ -159,7 +266,7 @@
                 }
             });
         }
-    };
+    }
 </script>
 </body>
 </html>

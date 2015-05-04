@@ -162,10 +162,15 @@
                 <div class="">
                 <input type="hidden" name="author" value="<%=data.author%>" >
                     <input type="hidden" name="gid" value="<%=data.gid%>" >
-                <button type="submit" class="btn btn-primary">发布文章</button>
+                <button type="submit" class="btn btn-primary">保存</button>
                     <div class="checkbox btn">
                         <label >
-                            <input type="checkbox" name="hide" value="on"> 保存草稿
+                            <%if(data.hide=="on"){%>
+                            <input type="checkbox" name="hide" value="off" > 发布文章
+                            <input type="hidden" name="dar" value="1" >
+                            <%}else{%>
+                            <input type="checkbox" name="hide" value="on" > 保存草稿
+                            <%}%>
                         </label>
                     </div>
                 </div>

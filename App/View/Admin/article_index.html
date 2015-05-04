@@ -169,6 +169,41 @@
 
 
         });
+        $('#draft').click(function(){
+            var sele=$("#table").bootstrapTable('getSelections');
+            if(sele.length==0){
+                bootbox.alert({
+                    size:'small',   message:"您还没有选择文章！"
+                })
+            }else{
+                var gid=[];
+                sele.forEach(function(item){
+                    gid.push(item.gid);
+                })
+                gid=gid.join(",");
+                bootbox.confirm({
+                    size: 'small',
+                    message: "你确定要把所选文章放进草稿箱吗？",
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/admin/article/todraft',
+                                data: {gid: gid,hide:"on"},
+                                type: "GET",
+                                dataType: "json",
+                                success: function (data) {
+                                    $("#table").bootstrapTable('refresh');
+                                    toastr.success('成功移动' + data + '篇文章！');
+                                    console.log(data);
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+            }
+        });
     });
     function operateFormatter(value, row, index) {
         return [
@@ -185,10 +220,30 @@
     }
 
     window.operateEvents = {
-//        'click .like': function (e, value, row, index) {
-//            alert('You click like icon, row: ' + JSON.stringify(row));
-//            console.log(value, row, index);
-//        },
+        'click .like': function (e, value, row, index) {
+            var gid = row.gid;
+            bootbox.confirm({
+                size: 'small',
+                message: "你确定要把所选文章放到草稿箱吗？",
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: '/admin/article/todraft',
+                            data: {gid: gid,hide:"on"},
+                            type: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                $("#table").bootstrapTable('refresh');
+                                toastr.success('成功移动' + data + '篇文章！');
+                                console.log(data);
+                            }
+                        });
+
+                    }
+
+                }
+            });
+        },
 //        'click .edit': function (e, value, row, index) {
 //            alert('You click edit icon, row: ' + JSON.stringify(row));
 //            console.log(value, row, index);
@@ -210,7 +265,6 @@
                                 $("#table").bootstrapTable('refresh');
 
                                 toastr.success('成功删除' + data + '篇文章！');
-                                console.log(data);
                             }
                         });
 

@@ -6,12 +6,12 @@ module.exports = Controller("Admin/BaseController", function () {
     return {
         indexAction: function () {
             //文章管理
-            var self=this;
+            var self = this;
             var cate = D('category').select().then(function (data) {
                 return get_children(data, 0);
             });
             this.assign({
-                success:self.get('success')==1?"1":"0",
+                success: self.get('success') == 1 ? "1" : "0",
                 category: cate,
                 active: 'articleindex'//当前高亮
             });
@@ -19,16 +19,34 @@ module.exports = Controller("Admin/BaseController", function () {
 
         },
         draftAction: function () {
-            //文章管理
+            //草稿箱
+            var self = this;
             var cate = D('category').select().then(function (data) {
                 return get_children(data, 0);
             });
             this.assign({
+                success: self.get('success') == 1 ? "1" : "0",
                 category: cate,
                 active: 'draft'//当前高亮
             });
             this.display();
 
+        },
+        todraftAction: function () {//移动到草稿箱
+            var self = this;
+            if (this.isAjax('get')) {
+                var gid = this.get('gid');
+                gid = gid.split(",");
+                console.log(gid);
+                var hide = this.get('hide');
+                console.log(gid)
+                D('article').where({gid: ['IN', gid]}).update({
+                    hide: hide
+                }).then(function (data) {
+                    self.json(data);
+                })
+
+            }
         },
         deleAction: function () {
             //删除文章
@@ -43,42 +61,41 @@ module.exports = Controller("Admin/BaseController", function () {
 
                     });
                     var where = {gid: ["IN", gids]}
-                     var gidd=gids;
+                    var gidd = gids;
                 } else {
                     where = {gid: gid[0]}
-                    gidd=gid;
+                    gidd = gid;
                 }
                 if (this.get('gid')) {
 
                     return D('article').where(where).delete().then(function (row) {
-                            gidd.forEach(function(gtm){
+                        gidd.forEach(function (gtm) {
 
-                                D('tag').where({gid: ['like','%{'+gtm+'}%']}).select().then(function (data) {
-                                    console.log(data);
-                                    var gid ='{'+gtm+'';
-                                    console.log(gid+"dddddd");
-                                    data.forEach(function (item) {
-                                        console.log(item.gid)
-                                        var index = item.gid.indexOf(gid)
-                                        var isdh = item.gid.slice(index - 1, index);
-                                        if (isdh == ",") {
-                                            console.log("有，")
-                                            var ngid = item.gid.replace("," + gid, "")
-                                            console.log(ngid)
-                                        } else {
-                                            console.log("没有，")
-                                            ngid = item.gid.replace(gid, "")
-                                            console.log(ngid)
-                                        }
-                                        console.log(item);
-                                        D('tag').where({tid: item.tid}).update({gid: ngid}).then(function (d) {
-                                            console.log(d);
-                                        });
-                                    })
+                            D('tag').where({gid: ['like', '%{' + gtm + '}%']}).select().then(function (data) {
+                                console.log(data);
+                                var gid = '{' + gtm + '';
+                                console.log(gid + "dddddd");
+                                data.forEach(function (item) {
+                                    console.log(item.gid)
+                                    var index = item.gid.indexOf(gid)
+                                    var isdh = item.gid.slice(index - 1, index);
+                                    if (isdh == ",") {
+                                        console.log("有，")
+                                        var ngid = item.gid.replace("," + gid, "")
+                                        console.log(ngid)
+                                    } else {
+                                        console.log("没有，")
+                                        ngid = item.gid.replace(gid, "")
+                                        console.log(ngid)
+                                    }
+                                    console.log(item);
+                                    D('tag').where({tid: item.tid}).update({gid: ngid}).then(function (d) {
+                                        console.log(d);
+                                    });
+                                })
 
-                                });
-                            })
-
+                            });
+                        })
 
 
                         self.json(row);
@@ -90,6 +107,7 @@ module.exports = Controller("Admin/BaseController", function () {
 
             }
         },
+
         dataAction: function () {
             var self = this;
             var page = this.get("offset") > 1 ? (this.get("offset") / 20) + 1 : 1;
@@ -313,9 +331,11 @@ module.exports = Controller("Admin/BaseController", function () {
                             });
 
                         }
-                        console.log("555555555555555555555555555555555555555");
+
                     })
-                    console.log("666666666666666666666666666666666666")
+                    if (param.dar) {
+                        return self.redirect("/admin/article/draft/success/1");
+                    }
                     return self.redirect("/admin/article/index/success/1");
                 });
 

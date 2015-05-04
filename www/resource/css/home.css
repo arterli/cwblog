@@ -1,27 +1,27 @@
-
+body{font-size: 14px;}
 #particles {
-    background-color: #933;
-    background-image: url(../img/particles.jpg);
-    background-repeat: no-repeat;
-    background-position: center bottom;
+    background-color: #1abc9c;
+    /*background-image: url(../img/particles.jpg);*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center bottom;*/
     width: 100%;
     height: 510px;
     overflow: hidden;
 }
 #blog {
-    background-color: #933;
-    background-image: url(../img/particles.jpg);
-    background-repeat: no-repeat;
-    background-position: center bottom;
+    background-color: #1abc9c;
+    /*background-image: url(../img/particles.jpg);*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center bottom;*/
     width: 100%;
     height: 410px;
     overflow: hidden;
 }
 #blogcat {
-    background-color: #933;
-    background-image: url(../img/particles.jpg);
-    background-repeat: no-repeat;
-    background-position: center bottom;
+    background-color: #1abc9c;
+    /*background-image: url(../img/particles.jpg);*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center bottom;*/
     width: 100%;
     height: 210px;
     overflow: hidden;
@@ -32,7 +32,6 @@
     right: 0;
     top: 0;
     z-index: 20;
-    margin-top: 10px;
 }
 .intro {
     position: absolute;
@@ -42,6 +41,7 @@
     width: 100%;
     text-align: center;
 }
+.slide{box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);}
 .blog-header{
     font-family: "Microsoft YaHei";
     position: absolute;
@@ -51,7 +51,15 @@
     width: 100%;
     color: #fff;
 }
+.blog-header h1{
+    font-size: 40px;
+    margin-top: 0px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.blog-header p{
+    font-size: 18px;
 
+}
 .intro h1 {
     text-transform: uppercase;
     font-size: 85px;
@@ -70,8 +78,8 @@
 .intro p {
     margin: 0 0 30px 0;
     font-size: 20px;
-    color: #FFE6FC;
-    text-Shadow: 1px 1px #543642;
+    color: #fff;
+    text-Shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 @media only screen and (max-width: 1000px) {
     .intro h1 {
@@ -136,7 +144,7 @@
 .blog-main .media-body small{
     color: #999;
 }
-.blog-main article footer{background: #f7f7f9 ; margin-top: -25px; padding: 15px}
+.blog-main article footer{background: #f7f7f9 ; margin-top: -15px; padding: 15px ;border-radius: 6px;}
 .blog-main .text_c{margin-right: 15px ; color: #999; font-size: 12px;}
 .blog-main .more{font-size: 12px}
 /*底部*/

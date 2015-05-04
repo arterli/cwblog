@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>CMSWING</title>
-
+    <link rel="shortcut icon" href="/resource/img/favicon.ico">
     <!-- Bootstrap -->
     <link href="/resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resource/css/flat-ui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/resource/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="/resource/css/home.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="/resource/js/vendor/html5shiv.js"></script>
+    <script src="/resource/js/vendor/respond.min.js"></script>
     <![endif]-->
     <script src="/resource/js/cufon-yui.js" type="text/javascript"></script>
     <script src="/resource/js/ChunkFive_400.font.js" type="text/javascript"></script>
     <script type="text/javascript">
-        Cufon.replace('.intro>h1',{ color:'#fff',textShadow: '1px 1px #543642'});
-        Cufon.replace('.navbar-brand',{textShadow: '1px 1px #000'});
+        Cufon.replace('.intro>h1',{ color:'#fff',textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'});
+        Cufon.replace('.navbar-brand',{textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'});
+
     </script>
     <style>
         .pro_name a{color: #4183c4;}
@@ -35,12 +37,14 @@
 <body>
 <div id="particles">
     <% include ../home/include/nav.html%>
+
     <div class="intro">
         <h1>CMSWING</h1>
         <p>一款基于ThinkJS(Node.js MVC)和MySQL的功能强大的博客及CMS建站系统。<br>致力于为您提供快速、稳定，且在使用上又极其简单、舒适的内容创作及站点搭建服务。</p>
-        <a type="button" class="btn btn-primary btn-lg" href="https://git.oschina.net/arterli/cmswing" target="_blank">（Git@OSC）源码下载</a>
+        <a type="button" class="btn btn-large btn-inverse" href="https://git.oschina.net/arterli/cmswing" target="_blank">（Git@OSC）源码下载</a>
     </div>
 </div>
+
 <div class="cw-social"><div class="container">
     <ul class="cw-social-buttons">
         <li class="social-qq">
@@ -102,12 +106,13 @@
 <script src="/resource/js/jquery.min.js"></script>
 <script src="/resource/js/jquery.particleground.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="/resource/js/bootstrap.min.js"></script>
+<script src="/resource/js/flat-ui.min.js"></script>
+<script src="/resource/js/application.js"></script>
 <script>
     $(document).ready(function() {
         $('#particles').particleground({
-            dotColor: '#FFE6FC',
-            lineColor: '#CB98DB'
+            dotColor: '#53DBC7',
+            lineColor: '#29C7AF'
         });
     });
 </script>
