@@ -10,6 +10,8 @@ module.exports = Controller(function(){
     init: function(http){
       this.super("init", http);
       //其他的通用逻辑
+
+      this.assign('active','');//当前高亮初始值
     }
   }
 })

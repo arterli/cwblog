@@ -15,13 +15,15 @@ module.exports = Controller("Home/BaseController", function(){
       this.action('home/index/home');
     },
       homeAction: function(){
-
+          this.assign('active','home');//当前高亮初始值
           this.display();
       },
       blogAction:function(){
+          this.assign('active','blog');//当前高亮初始值
           this.display();
       },
       catAction:function(){
+          this.assign('active','blog');//当前高亮初始值
           this.display();
       }
 
