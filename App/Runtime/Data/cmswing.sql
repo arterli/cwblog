@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本地数据库
+Source Server         : 1111
 Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : cmswing
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-04-27 01:54:32
+Date: 2015-05-05 15:58:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,7 +47,7 @@ CREATE TABLE `cw_article` (
   KEY `views` (`views`),
   KEY `comnum` (`comnum`),
   KEY `hide` (`hide`)
-) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cw_article
@@ -109,6 +109,11 @@ INSERT INTO `cw_article` VALUES ('75', '范德萨发大水发', '1430036360183',
 INSERT INTO `cw_article` VALUES ('76', '幅度萨芬士大夫啊', '1430036398324', '<p>犯得上发射点发<br/></p>', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
 INSERT INTO `cw_article` VALUES ('77', 'rwqrqwrqwrqrq', '1430043172860', '<p>rewrewqrqwerq<br/></p>', '', '', '1', '10', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
 INSERT INTO `cw_article` VALUES ('80', 'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q\'q', '1430046029788', '<p>3333333333333333333<br/></p>', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'on', 'off', 'on', '', '1');
+INSERT INTO `cw_article` VALUES ('82', '12313213', '1430113126602', '', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
+INSERT INTO `cw_article` VALUES ('83', '12313213fsda', '1430113154209', '<p>fdsaf<br/></p>', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
+INSERT INTO `cw_article` VALUES ('84', '12313213fsdafdsf', '1430113195334', '<p>fdsaffdsfasf<br/></p>', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
+INSERT INTO `cw_article` VALUES ('85', 'fasdsfdsaf', '1430113298826', '<p>fsfsdafdsaf<br/></p>', '', '', '1', '0', 'blog', '0', '0', '0', 'off', 'off', 'on', 'off', 'on', '', '1');
+INSERT INTO `cw_article` VALUES ('86', 'fsdfdsafsadf', '1430809658071', '<p><img alt=\"TB1NYpMFVXXXXXsXFXXFHLvIVXX-198-45.png\" src=\"/static/image/20150505/1430809560607200737.png\" title=\"1430809560607200737.png\"/><br/></p><p><img src=\"/static/image/20150505/1430809586833693495.png\" style=\"\"/></p><p><img src=\"/static/image/20150505/1430809586818103321.png\" style=\"\"/></p><p><img src=\"/static/image/20150505/1430809560607200737.png\" style=\"\"/></p><p><br/></p>', '', '', '1', '5', 'blog', '0', '0', '0', 'off', 'off', 'off', 'off', 'on', '', '1');
 
 -- ----------------------------
 -- Table structure for cw_category
@@ -178,7 +183,7 @@ CREATE TABLE `cw_tag` (
   `gid` text NOT NULL,
   PRIMARY KEY (`tid`),
   KEY `tagname` (`tagname`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of cw_tag
@@ -192,6 +197,10 @@ INSERT INTO `cw_tag` VALUES ('6', '大大撒', '68');
 INSERT INTO `cw_tag` VALUES ('7', '放大方法', '69');
 INSERT INTO `cw_tag` VALUES ('8', '2222', '70');
 INSERT INTO `cw_tag` VALUES ('9', '7777', '76');
+INSERT INTO `cw_tag` VALUES ('10', 'fdsafas', '84');
+INSERT INTO `cw_tag` VALUES ('11', 'fdsfdsafasdf', '85');
+INSERT INTO `cw_tag` VALUES ('12', 'fdasf', '{61}');
+INSERT INTO `cw_tag` VALUES ('13', '1411', '{86}');
 
 -- ----------------------------
 -- Table structure for cw_user
