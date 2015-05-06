@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css"/>
     <link rel="stylesheet" href="/resource/js/tagEditor/jquery.tag-editor.css"/>
     <link rel="stylesheet" href="/resource/css/bootstrap-switch.min.css"/>
+    <link rel="stylesheet" href="/resource/css/croppic.css"/>
     <link rel="stylesheet" href="/resource/css/admin.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="/resource/js/vendor/html5shiv.js"></script>
+    <script src="/resource/js/vendor/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -81,6 +82,12 @@
                         <input type="hidden" id="dtp_input1" value=""/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label">缩略图 <small class="type-info">{ 宽:836px,高:200px }</small> <a href="#cropContaineroutput" aria-controls="cropContaineroutput" data-toggle="collapse"> 添加 <span class="caret"></span></a></label>
+                    <div id="cropContaineroutput" class="collapse panel-collapse" style="width: 836px;height: 200px"></div>
+                    <!--TODO-->
+                </div>
+
                 <div class="form-group">
                     <label class="control-label">内容</label>
                     <script id="content" name="content" type="text/plain" style="height:500px;"></script>
@@ -181,7 +188,17 @@
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8" src="/resource/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="/resource/js/jquery.mousewheel.min.js"></script>
+<script type="text/javascript" src="/resource/js/croppic.min.js"></script>
 <script>
+    var croppicContaineroutputOptions = {
+        uploadUrl:'img_save_to_file',//TODO nodejs保存图片并返回
+        cropUrl:'img_crop_to_file',//TODO nodejs上传的缩略图根据定义尺寸裁剪
+        //outputUrlId:'cropOutput',
+        modal:false,
+        loaderHtml:'<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> '
+    }
+    var cropContaineroutput = new Croppic('cropContaineroutput', croppicContaineroutputOptions);
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('content');

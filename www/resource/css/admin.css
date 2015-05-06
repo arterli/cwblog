@@ -80,6 +80,12 @@ body{font-size: 14px;}
 .main .page-header {
     margin-top: 0;
 }
+#cropContaineroutput {
+    border: 1px solid #ccc;
+    height: 145px;
+    position: relative;
+    width: 100%;
+}
 /*分类*/
 .tree {
     min-height:20px;
