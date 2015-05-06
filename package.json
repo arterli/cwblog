@@ -6,7 +6,7 @@
   "dependencies": {
     "thinkjs": "*"
   },
-  "keywords": [],
+  "keywords": ["cmswing"],
   "repository": {
     "type": "git",
     "url": ""
