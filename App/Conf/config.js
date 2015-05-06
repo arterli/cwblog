@@ -11,5 +11,7 @@ module.exports = {
   //Session配置
   session_name: "cmswing", //session对应的cookie名称
   session_type: "File", //session存储类型'File', 空为内存，还可以为Db
+  wechat_id:'wx5604a1323503fefe',
+  wechat_secret:'a8dc0edbdf65419c3ad26ad6d744e94f'
   //filter_data: false //主要是安全过滤，强烈建议开启
 };
