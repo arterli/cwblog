@@ -253,6 +253,7 @@ p{font-size: 14px}
     background-color: #e1e4e7 !important;
     border-radius: 3px !important;
     border: 1px solid #fff !important;
+    overflow: hidden;
 }
 .osc_git_box .osc_git_commits  li{
     border-bottom: 1px solid #eff0f2 !important;
